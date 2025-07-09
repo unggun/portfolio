@@ -1,0 +1,55 @@
+---
+title: "Swift Checkout: Customizable SaaS Checkout for E-Commerce Platforms"
+publishedAt: "2025-04-01"
+summary: "Swift Checkout empowers e-commerce brands to overcome rigid checkout limitations in platforms like Shopify and Magento, offering highly customizable and localized checkout flows through a robust, scalable SaaS solution."
+images:
+  - "/images/projects/swift-checkout/swift-checkout.jpg"
+  - "/images/projects/project-01/image-03.jpg"
+team:
+  - name: "Andreas Unggun Parananda"
+    role: "Engineering Manager"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/andreas-unggun-parananda-60279a13b/"
+link: ""
+---
+
+## Overview
+
+Swift Checkout is a SaaS product designed to replace the native checkout experience for popular e-commerce platforms such as Shopify, Magento, and WooCommerce. Built with a focus on customization, localization, and reliability, Swift Checkout allows merchants to go beyond the default checkout limitations of their platform, enabling features like custom payment options, dynamic shipping logic, and localized promotions.
+
+The product was inspired by the challenges faced in markets like Indonesia, where standard e-commerce checkout flows often lack the flexibility to address local payment methods, granular shipping choices, or layered promotions. Our solution bridges that gap—letting merchants craft a branded, market-fit experience without sacrificing stability or compliance with platform ecosystems.
+
+## Key Features
+
+- **Deep Platform Integration**: Seamlessly connects with Shopify, Magento, and WooCommerce via custom APIs and GraphQL, providing a frictionless transition for merchants.
+- **Customizable Checkout Flows**: Enables advanced features such as multi-shipping options, pin-point address mapping, local payment channels, and possibility of promotion stacking—previously impossible on standard checkouts.
+- **Scalable, Resilient Architecture**: Combines Laravel and Next.js for a performant, modular backend/frontend, supported by MySQL, GraphQL, and microservices for asynchronous workflows.
+- **Asynchronous Order Sync**: Utilizes n8n and Google Pub/Sub for robust, real-time order and status synchronization, supporting high concurrency and reliability across thousands of users.
+- **Automated Promo Logic Testing**: Implements structured automation testing for complex promotional scenarios, minimizing regression issues and QA time.
+- **Reward Points & Store Credit Redemption**: Supports seamless pay-with-points and store credit at checkout, allowing customers to combine or choose between loyalty points, store credits, and traditional payment methods for maximum flexibility.
+
+## Technologies Used
+
+- **Laravel**: Powers the main backend and API services.
+- **React and Next.js**: Delivers a fast, responsive checkout frontend.
+- **MySQL**: Serves as the primary database for orders, users, and configuration data.
+- **GraphQL API**: Orchestrates efficient communication between services and client storefronts.
+- **n8n & Google Pub/Sub**: Handle asynchronous data sync and event-driven workflows.
+- **Jest, PHPUnit, & Postman**: Used for automation testing across frontend and backend promo logic.
+- **CI/CD (GitHub Actions)**: Automates deployment and testing for faster, safer releases.
+
+## Challenges and Learnings
+
+One of the biggest technical hurdles was working around the rigid constraints imposed by e-commerce platforms like Shopify, which limited customization in their standard checkout. Delivering features like dynamic shipping, custom payments, and promo stacking required deep API knowledge and inventive workarounds—all while ensuring ongoing platform compliance and system stability.
+
+Operationally, balancing the rapid delivery of custom client features with the needs of a stable multi-tenant SaaS system was a continual learning process. This meant developing robust automation testing for high-risk areas (like promo logic), investing in real-time monitoring, and maintaining clear documentation for both internal and client teams.
+
+## Outcome
+
+Swift Checkout now serves over 2,500 monthly active users, helping brands deliver a tailored checkout experience that aligns with their local market needs. Automated testing and monitoring have reduced QA time by 8 hours per development cycle and improved release confidence. Key client requests are now delivered faster—without compromising the stability or scalability of the product for all users.
+
+This project strengthened my skills in system architecture, technical leadership, and SaaS delivery, and stands as a testament to building resilient, user-centric solutions in complex, regulated ecosystems.
+
+---
+
+This project demonstrates advanced technical leadership, an ability to design for scale, and a strong focus on operational excellence—crucial skills for leading modern SaaS teams and delivering value in the e-commerce space.

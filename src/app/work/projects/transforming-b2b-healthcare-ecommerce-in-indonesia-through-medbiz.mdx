@@ -1,0 +1,52 @@
+---
+title: "Transforming B2B Healthcare E-Commerce in Indonesia through Medbiz"
+publishedAt: "2023-04-01"
+summary: "Medbiz modernizes Indonesia’s pharmacy supply chain with a scalable B2B e-commerce platform, serving thousands of pharmacy owners through real-time inventory, ordering, and seller management."
+images:
+  - "/images/projects/project-01/cover-01.jpg"
+  - "/images/projects/project-01/cover-02.jpg"
+  - "/images/projects/project-01/cover-03.jpg"
+  - "/images/projects/project-01/cover-04.jpg"
+team:
+  - name: "Andreas Unggun Parananda"
+    role: "Assistant Engineering Manager"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/andreas-unggun-parananda-60279a13b/"
+link: "https://medbiz.id/"
+---
+
+## Overview
+
+Medbiz is a B2B e-commerce platform revolutionizing Indonesia’s healthcare supply chain, enabling thousands of pharmacy business owners to order from major distributors and state-owned enterprises with ease. Built for scale and reliability, Medbiz connects sellers, distributors, and buyers across the country with real-time inventory, seamless ordering, and a powerful seller management portal.
+
+## Key Features
+
+- **Scalable B2B Marketplace**: Supports thousands of pharmacies, state-owned sellers, and distributors with role-based portals for product, order, and inventory management.
+- **Real-Time Product Updates**: Uses RabbitMQ and microservices to efficiently process high-volume product updates—ensuring up-to-date inventory without overloading the system.
+- **Omnichannel Experience**: Built with Next.js for responsive web and mobile app access, delivering a unified experience to both buyers and sellers.
+- **Advanced Search and Discovery**: Integrates Elasticsearch for fast, accurate product and inventory search—even across massive catalogues.
+- **Order Management System**: Swift OMS powers seller operations, order routing, fulfillment, and reporting in a centralized dashboard.
+- **Robust Integration**: Leverages GCP for scalability and resilience, MySQL for transactional data, and Buildkite for automated CI/CD pipelines.
+
+## Technologies Used
+
+- **Adobe Commerce (Magento Enterprise)**: Core B2B platform.
+- **Next.js**: Frontend for web and mobile.
+- **Elasticsearch**: Fast product and inventory search.
+- **RabbitMQ**: Reliable, asynchronous queueing for product and order updates.
+- **Swift OMS**: Seller portal and order management.
+- **Google Cloud Platform (GCP)**: Cloud infrastructure and scalability.
+- **MySQL**: Primary relational database.
+- **Buildkite**: CI/CD automation for deployment.
+
+## Challenges and Learnings
+
+Coordinating a fast-growing, cross-functional team of 20+ engineers, we established a scalable “captain” system—appointing three lead engineers to oversee different modules, manage code reviews, and accelerate delivery alongside a PM, Scrum Master, and 10 QA engineers. This approach enabled us to meet tight deadlines and keep quality high in a complex, multi-stakeholder project.
+
+Handling real-time product updates for state-owned sellers with huge catalogs was a major technical challenge. Processing updates concurrently risked system overload, so we architected a robust queuing system with RabbitMQ, balancing reliability and eventual consistency—delivering smooth, crash-free updates even at massive scale.
+
+During development, I also detected and resolved a critical race condition in sales order processing involving full reward point redemption, preventing potential revenue loss and protecting transaction integrity for all users.
+
+## Outcome
+
+Medbiz now powers seamless transactions and inventory management for thousands of pharmacies and major healthcare suppliers across Indonesia. The platform’s scalable architecture and robust operational model enable efficient, reliable e-commerce in a sector with zero margin for error. This project sharpened my skills in large-team leadership, system scalability, and B2B platform design.

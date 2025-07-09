@@ -1,0 +1,43 @@
+---
+title: "UP LTC Display: Timecode Monitoring Plugin for DAWs"
+publishedAt: "2024-06-03"
+summary: "UP LTC Display is an audio plugin for playback engineers, lighting designers, and visual teams—enabling accurate timecode monitoring and synchronization in DAWs like Ableton Live and Logic Pro."
+images:
+  - "/images/projects/up-ltc-display/image01.jpeg"
+  - "/images/projects/up-ltc-display/image02.jpeg"
+  - "/images/projects/up-ltc-display/image03.jpeg"
+team:
+  - name: "Andreas Unggun Parananda"
+    role: "Software Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/andreas-unggun-parananda-60279a13b/"
+link: "https://lnkd.in/gXu83iw3"
+---
+
+## Overview
+
+UP LTC Display is a custom AU/VST audio plugin designed for playback engineers and live production teams. The tool solves a common but critical problem: accurately monitoring linear timecode (LTC) within any major DAW—helping synchronize cues between playback, lighting, and visual engineers during live performances and rehearsals.
+
+Developed in C++ with JUCE, UP LTC Display reads incoming LTC audio streams, displays real-time timecode, and lets users easily note and copy specific trigger points for tight cue coordination.
+
+## Key Features
+
+- **LTC Timecode Monitoring**: Accurately displays SMPTE timecode from incoming LTC audio in any compatible DAW, including Ableton Live, Logic Pro, Cubase, and Studio One.
+- **Frame Rate (FPS) Detection**: Implements robust logic to deduce FPS by tracking frame numbers over each second, locking on to the correct frame rate and preventing erratic jumps once established.
+- **Cross-DAW Compatibility**: Works as an AU/VST plugin for wide compatibility across industry-standard DAWs, with ongoing development for Pro Tools and Max4Live integration.
+- **Cue Management**: Makes it easy for engineers to copy-paste precise timecode values for coordination with lighting and visual triggers.
+
+## Technologies Used
+
+- **C++**: Core language for plugin logic and real-time audio processing.
+- **JUCE Framework**: Rapid cross-platform plugin development for AU/VST formats.
+
+## Challenges and Learnings
+
+A primary challenge was achieving reliable, real-time FPS display across DAWs. The FPS is deduced by counting decoded frames per second and observing SMPTE timecode rollovers, resulting in high accuracy but introducing a necessary initial delay (up to 3 seconds). While the logic worked well in Logic Pro X (quickly stabilizing at the correct FPS), in Ableton Live the display sometimes toggled between 25 and 30 FPS before locking in—highlighting differences in DAW audio buffer handling and plugin host timing. This experience deepened my understanding of low-level DAW integration, timecode protocols, and the trade-offs required for plugin stability.
+
+## Outcome
+
+UP LTC Display is now available to playback, lighting, and visual engineers as a robust tool for timecode monitoring and cue management—improving collaboration and timing precision in live productions. The plugin has been successfully used in multiple DAWs, with further development underway for Pro Tools and Max4Live support.
+
+This project strengthened my skills in C++/JUCE development, digital audio processing, and requirements translation—bridging the gap between real-world show workflows and custom engineering solutions.
