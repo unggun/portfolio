@@ -76,7 +76,7 @@ const about = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://cal.com/andreas-unggun-parananda",
   },
   intro: {
     display: true,
@@ -126,7 +126,7 @@ const about = {
         images: [
           {
             src: "/images/projects/swift-checkout/swift-checkout.jpg",
-            alt: "Once UI Project",
+            alt: "Swift Checkout Project",
             width: 16,
             height: 9,
           },
@@ -336,6 +336,10 @@ const about = {
           {
             title: "AWS",
             description: <>Cloud platform with AWS.</>,
+          },
+          {
+            title: "Vercel",
+            description: <>Cloud platform with Vercel.</>,
           },
         ],
         images: [],
