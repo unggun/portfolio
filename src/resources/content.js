@@ -56,7 +56,7 @@ const home = {
   },
   subline: (
     <>
-      I'm Andreas, a freelance full-stack developer / software engineer where I craft intuitive
+      I'm Andreas, a full-stack developer / software engineer where I craft intuitive
       <br /> web-apps, SaaS products, company profile, and e-commerce solutions.
     </>
   ),
