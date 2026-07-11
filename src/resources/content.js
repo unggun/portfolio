@@ -6,7 +6,7 @@ const person = {
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Engineering Manager / Technical Lead / Full Stack Developer",
+  role: "Technical Lead / AI Native Engineer / Full Stack Developer",
   avatar: "/images/avatar.jpg",
   email: "andreas.unggun@gmail.com",
   location: "Asia/Jakarta",
@@ -56,8 +56,8 @@ const home = {
   },
   subline: (
     <>
-      I'm Andreas, a full-stack developer / software engineer where I craft intuitive
-      <br /> web-apps, SaaS products, company profile, and e-commerce solutions.
+      I'm Andreas, an AI native engineer and full-stack developer who crafts intuitive
+      <br /> web-apps, SaaS products, company profiles, and e-commerce solutions.
     </>
   ),
 };
@@ -83,11 +83,11 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        Andreas is a Tangerang-based full-stack developer with a passion for transforming complex challenges into simple, actionable solutions. 
-        He brings several years of hands-on experience in backend (PHP, Laravel, Node.js, Go) and frontend (React, Next.js) development, 
-        building scalable SaaS products and e-commerce solutions. 
-        Andreas is skilled at collaborating with cross-functional teams and bridging technical and business goals. 
-        He actively incorporates AI tools such as Cursor, Claude and GPT-powered assistants into his workflow to boost productivity, accelerate coding, and improve documentation and testing. 
+        Andreas is a Tangerang-based engineering leader, AI native engineer, and full-stack developer who turns complex business challenges into simple, actionable solutions.
+        With over eight years of experience across backend (PHP, Laravel, Node.js, Go) and frontend (React, Next.js),
+        he builds scalable SaaS and e-commerce products while leading and mentoring engineering teams.
+        He bridges technical and business goals with equal fluency — and increasingly engineers AI into the development lifecycle itself,
+        from automated developer-KPI pipelines to self-healing systems that triage and fix production issues autonomously.
         Always eager to learn, Andreas is committed to delivering efficient, user-centric solutions that drive real business value.
       </>
     ),
@@ -96,6 +96,26 @@ const about = {
     display: true,
     title: "Work Experience",
     experiences: [
+      {
+        company: "Upscalix",
+        timeframe: "Aug 2025 - Present",
+        role: "Technical Lead",
+        achievements: [
+          <>
+            Designed and implemented automated data collection to measure developer KPIs, replacing manual tracking with a reliable, real-time pipeline and giving leadership objective visibility into team performance.
+          </>,
+          <>
+            Contributed to the development of an internal product (Pulse) that reduced company operating costs by approximately USD 500 per month.
+          </>,
+          <>
+            Introduced a deploy-fast, fail-fast development lifecycle for internal product development, increasing developer velocity and shortening time to market.
+          </>,
+          <>
+            Built a self-healing pipeline that uses Claude Code routines to automatically triage Sentry production issues, generate fixes, and open pull requests — reducing developer toil and cutting time-to-resolution for previously unseen production incidents.
+          </>,
+        ],
+        images: [],
+      },
       {
         company: "SIRCLO",
         timeframe: "Feb 2022 - Apr 2025",
