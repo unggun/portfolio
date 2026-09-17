@@ -1,0 +1,122 @@
+---
+title: "When Agents Write the Code, Review Becomes the Bottleneck"
+summary: "Going fully agentic on Pulse didn't give us a speed problem. It gave us a review problem — and every other thing we built was an answer to it."
+publishedAt: "2026-09-17"
+tag: "AI Engineering"
+---
+
+## The bottleneck moved
+
+When I pushed the team at Upscalix to go fully agentic on Pulse, I expected the hard part to be adoption. It wasn't. Engineers took to it quickly, and within a couple of weeks the amount of code moving through the team went up sharply.
+
+That was the problem.
+
+Code review has worked as our quality gate for decades, and it worked for a specific reason that nobody says out loud: human write-throughput was low. Review was always a bottleneck, but a tolerable one, because the rate of incoming code roughly matched the rate a person could reason about it. That balance is load-bearing. Agentic coding breaks it.
+
+Two things happen at once, and the second is worse than the first. The obvious one is that the review queue grows faster than people can drain it. The subtle one is that review *quality* degrades under exactly that pressure. A reviewer facing four thoughtful diffs reads them. A reviewer facing twenty approves the ones that look familiar. The gate doesn't fail loudly — it quietly stops being a gate, while still appearing green on every pull request.
+
+So the question was never "how do we go faster." We were already faster. The question was what to put in the place review used to occupy.
+
+## Machine-speed output needs machine-speed review
+
+The first move was the obvious one: put a review agent in CI, so that machine-generated code met machine-speed review. Every pull request gets read before a human opens it — not as a replacement for human judgment, but to absorb the volume that was drowning it.
+
+It did not work well at first, and the failure mode is worth describing, because it's the one I'd warn anyone about.
+
+The agent was noisy. It commented on everything it could justify commenting on — style preferences, defensive-programming suggestions, speculative edge cases that couldn't occur given the caller. Each individual comment was defensible. Collectively they were a wall of text on every pull request.
+
+**A noisy gate is worse than no gate**, and not by a little. When most comments don't matter, people stop reading them to find the ones that do. The team learned, correctly and rationally, that scrolling past the review agent was usually the right call. At which point we had spent real effort building something that made review *worse* — we'd added friction without adding signal, and trained everyone to ignore the thing we'd need them to trust later.
+
+Fixing it meant being far more aggressive about what the agent was allowed to raise. Narrow the mandate to the things that actually cause incidents — correctness, data handling, auth and permission boundaries, breaking interface changes — and delete the rest, including things that were technically true. Style belongs in a formatter, not a reviewer. The useful measure isn't how much the agent finds. It's what fraction of what it says changes the code. Push that number up and people start reading again.
+
+## The merge problem
+
+Reviewing faster just relocates the pressure. More approved code means more code trying to land, and the way most teams branch does not survive that.
+
+Long-lived feature branches are a bet that the code around you won't move much before you merge. Agentic throughput makes that bet a bad one. Branches that used to drift for a week now drift meaningfully in a day, and the cost lands as merge conflicts — which are not just tedious but genuinely dangerous, because resolving a large conflict is a code change that nobody reviews.
+
+So we moved to trunk-based development: small changes, merged constantly, no branch living long enough to rot.
+
+That only works if merging something is safe when it isn't finished, which is what feature flags are for. Flags let us separate deploying code from releasing behaviour — unfinished work sits in trunk, dark, integrated with everything around it, and gets turned on when it's ready rather than when it's merged. That separation is what makes continuous deployment tolerable. You stop treating deploys as events worth being nervous about, because a deploy no longer decides what users see.
+
+## More deploys, more surface
+
+Deploying continuously means production changes constantly, and production is where the remaining unknowns live. Whatever the review agent didn't catch and the flags didn't contain shows up here.
+
+This is where the Claude routines come in. We built a self-healing pipeline: a routine watches Sentry, and when a genuinely new issue appears it pulls the stack trace and surrounding context, works out what went wrong, writes a fix, and opens a pull request — which then re-enters the same pipeline as any other change, review agent included. Nothing about that fix gets to skip the gates.
+
+The interesting failure here wasn't technical. It was that **nobody merged them.**
+
+The pull requests were there, often correct, and they sat. An autonomously generated fix asks for a kind of trust that people don't extend on day one, and they're not wrong to withhold it — a fix you didn't write, for a bug you hadn't read about yet, is a genuinely unusual thing to be asked to approve. What moved it was accumulation: engineers read the PRs, checked the reasoning against the trace, found it held up, and did that enough times to update. Trust turned out to be earned at the pace of evidence, not announced at a standup.
+
+If I were doing it again I'd plan for that curve instead of being surprised by it. Start the routine on lower-stakes services, let people audit its output before it matters, and treat the waiting as part of the rollout rather than resistance to it.
+
+## It's a loop, not a pipeline
+
+Written out in order, this reads like a pipeline: code, review, merge, deploy. That's the wrong picture, and it hides the only property of the system that really matters.
+
+<div style={{ overflowX: "auto", marginTop: "24px", marginBottom: "8px" }}>
+<svg viewBox="0 0 700 264" width="100%" style={{ minWidth: "560px", display: "block" }} role="img" aria-label="A closed loop: agentic coding feeds CI and a review agent, which feeds trunk-based development with feature flags, which feeds continuous deployment to production; production incidents return via the self-healing pipeline to agentic coding.">
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6.4" refY="2.8" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.4,2.8 L0,5.6 z" fill="var(--neutral-on-background-weak)" />
+    </marker>
+    <marker id="ar-accent" markerWidth="8" markerHeight="8" refX="6.4" refY="2.8" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.4,2.8 L0,5.6 z" fill="var(--brand-on-background-medium)" />
+    </marker>
+  </defs>
+
+  <g fontFamily="var(--font-body), system-ui, -apple-system, sans-serif">
+    <g>
+      <rect x="5" y="28" width="150" height="84" rx="9" fill="var(--neutral-alpha-weak)" stroke="var(--neutral-alpha-medium)" strokeWidth="1" />
+      <text x="80" y="62" textAnchor="middle" fontSize="14" fontWeight="600" fill="var(--neutral-on-background-strong)">Agentic coding</text>
+      <text x="80" y="84" textAnchor="middle" fontSize="11.5" fill="var(--neutral-on-background-weak)">volume goes up</text>
+    </g>
+
+    <g>
+      <rect x="185" y="28" width="150" height="84" rx="9" fill="var(--neutral-alpha-weak)" stroke="var(--neutral-alpha-medium)" strokeWidth="1" />
+      <text x="260" y="62" textAnchor="middle" fontSize="14" fontWeight="600" fill="var(--neutral-on-background-strong)">CI + review agent</text>
+      <text x="260" y="84" textAnchor="middle" fontSize="11.5" fill="var(--neutral-on-background-weak)">absorbs the volume</text>
+    </g>
+
+    <g>
+      <rect x="365" y="28" width="150" height="84" rx="9" fill="var(--neutral-alpha-weak)" stroke="var(--neutral-alpha-medium)" strokeWidth="1" />
+      <text x="440" y="56" textAnchor="middle" fontSize="14" fontWeight="600" fill="var(--neutral-on-background-strong)">Trunk + flags</text>
+      <text x="440" y="77" textAnchor="middle" fontSize="11.5" fill="var(--neutral-on-background-weak)">deploy decoupled</text>
+      <text x="440" y="94" textAnchor="middle" fontSize="11.5" fill="var(--neutral-on-background-weak)">from release</text>
+    </g>
+
+    <g>
+      <rect x="545" y="28" width="150" height="84" rx="9" fill="var(--neutral-alpha-weak)" stroke="var(--neutral-alpha-medium)" strokeWidth="1" />
+      <text x="620" y="62" textAnchor="middle" fontSize="14" fontWeight="600" fill="var(--neutral-on-background-strong)">Production</text>
+      <text x="620" y="84" textAnchor="middle" fontSize="11.5" fill="var(--neutral-on-background-weak)">continuous deploys</text>
+    </g>
+
+    <line x1="158" y1="70" x2="180" y2="70" stroke="var(--neutral-on-background-weak)" strokeWidth="1.4" markerEnd="url(#ar)" />
+    <line x1="338" y1="70" x2="360" y2="70" stroke="var(--neutral-on-background-weak)" strokeWidth="1.4" markerEnd="url(#ar)" />
+    <line x1="518" y1="70" x2="540" y2="70" stroke="var(--neutral-on-background-weak)" strokeWidth="1.4" markerEnd="url(#ar)" />
+
+    <path d="M620,112 L620,182 Q620,200 602,200 L98,200 Q80,200 80,182 L80,118"
+          fill="none" stroke="var(--brand-on-background-medium)" strokeWidth="2" markerEnd="url(#ar-accent)" />
+
+    <text x="350" y="228" textAnchor="middle" fontSize="13" fontWeight="600" fill="var(--brand-on-background-medium)">Self-healing pipeline — Claude routines</text>
+    <text x="350" y="250" textAnchor="middle" fontSize="11.5" fill="var(--neutral-on-background-weak)">Sentry issue → triage → fix → pull request → back through every gate</text>
+  </g>
+</svg>
+</div>
+
+The return arrow is the whole point. Production failures don't terminate the process, they re-enter it at the beginning — as pull requests, subject to the same review agent, the same trunk, the same flags as anything a human started. The system isn't an assembly line that produces software. It's a control loop that corrects itself, and the fixes it generates are not privileged in any way.
+
+Read as a loop, the four pieces stop looking like a list of good practices and start looking like what they are: each one exists to absorb the pressure created by the one before it. Agentic coding overwhelms human review, so review became machine-speed. Faster review pushes more code toward merge, so branches got short and releases got decoupled from deploys. More deploys widen the production surface, so failures got a path back to the start. Remove any one and the pressure it was holding shows up somewhere worse — usually as a green checkmark on a pull request nobody really read.
+
+## If you're about to do this
+
+Three things I'd tell you, in the order they'll bite.
+
+**Adopting agents is the easy part.** The disruption isn't in writing code, it's in every process downstream that quietly assumed code was expensive to produce. Look at what breaks when that assumption goes, and start there.
+
+**Tune your review agent ruthlessly, early.** Judge it by what fraction of its comments change the code, not by how much it finds. You can recover from an agent that misses things. Recovering from one the team has learned to ignore is much harder, because you're fixing a habit rather than a config.
+
+**Budget for the trust curve.** The first autonomous fix will sit unmerged, and that's the correct response to an unproven system. Plan for people to need evidence, give them cheap ways to check the reasoning, and let it accumulate. You can't shortcut this, and trying to mandate it just gets you approvals without attention — the same failure as the noisy reviewer, one layer up.
+
+None of this made quality a thing we traded against speed. It made quality the thing that *allowed* speed, because every gate that held let us stop being careful somewhere else.

@@ -87,7 +87,8 @@ const about = {
         With over eight years of experience across backend (PHP, Laravel, Node.js, Go) and frontend (React, Next.js),
         he builds scalable SaaS and e-commerce products while leading and mentoring engineering teams.
         He bridges technical and business goals with equal fluency — and increasingly engineers AI into the development lifecycle itself,
-        from automated developer-KPI pipelines to self-healing systems that triage and fix production issues autonomously.
+        building toward a software factory where delivery is measured and automated end to end: developer-KPI pipelines that run themselves,
+        and self-healing systems that triage and fix production issues autonomously.
         Always eager to learn, Andreas is committed to delivering efficient, user-centric solutions that drive real business value.
       </>
     ),
@@ -223,6 +224,24 @@ const about = {
     title: "Technical skills",
     skills: [
       {
+        title: "AI Engineering",
+        items: [
+          {
+            title: "Claude Code",
+            description: <>Agentic development with Claude Code — building, reviewing, and shipping production code.</>,
+          },
+          {
+            title: "Claude Routines",
+            description: <>Scheduled autonomous agents that triage production issues, generate fixes, and open pull requests without human kickoff.</>,
+          },
+          {
+            title: "Agentic AI",
+            description: <>Designing autonomous agents into the development lifecycle — from self-healing production pipelines to automated delivery workflows.</>,
+          },
+        ],
+        images: [],
+      },
+      {
         title: "Backend",
         items: [
           {
@@ -310,16 +329,12 @@ const about = {
             description: <>API testing with Postman.</>,
           },
           {
-            title: "Cursor",
-            description: <>AI-powered coding with Cursor.</>,
+            title: "GitHub Actions",
+            description: <>CI/CD pipelines and automated delivery workflows with GitHub Actions.</>,
           },
           {
-            title: "ChatGPT",
-            description: <>AI-powered coding with ChatGPT.</>,
-          },
-          {
-            title: "Claude",
-            description: <>AI-powered coding with Claude.</>,
+            title: "Firebase",
+            description: <>Building and shipping apps fast with Firebase.</>,
           },
           {
             title: "n8n",
@@ -371,8 +386,8 @@ const about = {
 const blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about design and tech...",
-  description: `Read what ${person.name} has been up to recently`,
+  title: "Notes on building software with agents",
+  description: `Field notes from ${person.name} on agentic development, delivery systems, and what breaks along the way`,
   // Create new blog posts by adding a new .mdx file to app/blog/posts
   // All posts will be listed on the /blog route
 };
