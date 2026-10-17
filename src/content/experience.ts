@@ -1,10 +1,12 @@
-export type Lane = "ICUBE" | "SIRCLO" | "Upscalix";
+export type Lane = "ICUBE" | "SIRCLO" | "_upsounds" | "Upscalix";
 
 export type Role = {
   company: Lane;
   title: string;
   from: string;
   to: string | null;
+  /** Runs alongside a full-time role: shown as its own lane, but the scroll playhead skips it. */
+  side?: boolean;
   highlights: string[];
   achievements: string[];
 };
@@ -74,6 +76,24 @@ export const roles: Role[] = [
       "Proactively identified and addressed issues by establishing a real-time monitoring dashboard and alerting system, enabling the team to resolve problems before they affected users or clients.",
       "Technical Architect (side role): Collaborated with the Business Development (BD) team, who often bring in prospective clients along with their specific challenges. Analyzed the client’s needs, design possible technical solutions, and provide effort estimations, following a similar process as internal feature planning.",
       "Delivery Tribe Lead (previous role): Launched new projects and led a team of 50, enhancing operational efficiency with the implementation of OKRs and SOPs. Maintained high standards in a team-centric, results-driven environment. Responsible for team member performance review.",
+    ],
+  },
+  {
+    company: "_upsounds",
+    title: "Founder & Developer (Independent)",
+    from: "2024-06",
+    to: null,
+    side: true,
+    highlights: [
+      "Build and sell tools for playback engineers: a C++/JUCE timecode plugin, a MIDI click player and Max for Live devices.",
+      "750+ downloads and sales across the catalog, 37 of them paid licenses.",
+      "Publish demos on YouTube and Instagram, and let engineers' comments pick the next tool.",
+    ],
+    achievements: [
+      "Built and sell a catalog of tools for playback engineers, drawn from problems I hit running playback at live shows: UP LTC Display (a C++/JUCE AU/VST timecode plugin), UP MIDI Click Player, and Max for Live devices including UP Loopers, UP Locator Makers, and UP Quantization Changer.",
+      "Reached 750+ downloads and sales across the catalog (37 paid licenses and 718 free downloads) from 3,000+ product page views.",
+      "Own the full product cycle on my own: finding the problem on stage, building the device, testing it in real shows, setting the price, and releasing and supporting it through a Lynk storefront.",
+      "Publish demos and tutorials on YouTube and Instagram (@_upsounds), and use comments from other engineers to decide which tool to build next.",
     ],
   },
   {

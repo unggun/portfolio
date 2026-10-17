@@ -17,6 +17,7 @@ type Props = {
 const LANES: { id: Lane; color: string }[] = [
   { id: "ICUBE", color: "var(--clip-sand)" },
   { id: "SIRCLO", color: "var(--clip-teal)" },
+  { id: "_upsounds", color: "var(--clip-sage)" },
   { id: "Upscalix", color: "var(--clip-lilac)" },
 ];
 
@@ -134,7 +135,8 @@ export function Arrangement({ roles, locators, span, now }: Props) {
         <div className="grid grid-cols-[132px_minmax(0,1fr)] gap-px rounded-[var(--r)] border border-line bg-line max-[699px]:grid-cols-[92px_minmax(0,1fr)]">
           <div
             aria-hidden="true"
-            className="grid grid-rows-[30px_repeat(3,66px)] gap-px [&>div]:flex [&>div]:items-center [&>div]:gap-2 [&>div]:border-l-4 [&>div]:border-l-[var(--c,transparent)] [&>div]:bg-panel [&>div]:px-2.5 [&>div]:py-1.5 [&>div]:text-xs [&>div]:font-bold [&>div]:[font-variation-settings:'wdth'_88]"
+            style={{ gridTemplateRows: `30px repeat(${LANES.length}, 66px)` }}
+            className="grid gap-px [&>div]:flex [&>div]:items-center [&>div]:gap-2 [&>div]:border-l-4 [&>div]:border-l-[var(--c,transparent)] [&>div]:bg-panel [&>div]:px-2.5 [&>div]:py-1.5 [&>div]:text-xs [&>div]:font-bold [&>div]:[font-variation-settings:'wdth'_88]"
           >
             <div className="!font-mono !text-[11px] !font-medium text-muted">YEAR</div>
             {LANES.map((l) => (
@@ -150,7 +152,7 @@ export function Arrangement({ roles, locators, span, now }: Props) {
             <div
               ref={trackRef}
               className="relative will-change-transform"
-              style={{ width: trackW, height: 30 + 3 * 66 + 3 }}
+              style={{ width: trackW, height: 30 + LANES.length * 67 }}
             >
               <div className="absolute inset-x-0 top-0 h-[30px] border-b border-line bg-panel">
                 {years.map((y) => (
