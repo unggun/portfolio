@@ -55,3 +55,7 @@
 .prose-live table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .prose-live th, .prose-live td { border: 1px solid var(--line); padding: .5em .75em; text-align: left; }
 .prose-live th { background: var(--panel); font-family: var(--font-mono); font-weight: 600; }
+.prose-live iframe {
+  display: block; width: 100%; aspect-ratio: 16 / 9;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--panel);
+}

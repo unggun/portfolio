@@ -24,10 +24,11 @@ export function timelineSpan(roles: Role[], now: Month): { start: Month; end: Mo
 }
 
 export function roleAt(roles: Role[], m: Month, now: Month): Role {
-  const containing = roles.find((r) => toMonth(r.from) <= m && m < roleEnd(r, now));
+  const main = roles.filter((r) => !r.side);
+  const containing = main.find((r) => toMonth(r.from) <= m && m < roleEnd(r, now));
   if (containing) return containing;
-  const started = roles.filter((r) => toMonth(r.from) < m);
-  if (started.length === 0) return roles[0];
+  const started = main.filter((r) => toMonth(r.from) < m);
+  if (started.length === 0) return main[0];
   return started.reduce((a, b) => (toMonth(b.from) >= toMonth(a.from) ? b : a));
 }
 

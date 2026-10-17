@@ -38,6 +38,9 @@ describe("roleAt", () => {
   it("falls back to the first role before any start", () => {
     expect(roleAt(roles, toMonth("2010-01"), now)).toBe(roles[0]);
   });
+  it("skips side projects that overlap a full-time role", () => {
+    expect(roleAt(roles, toMonth("2025-01"), now).company).toBe("SIRCLO");
+  });
   it("finds the containing role", () => {
     expect(roleAt(roles, toMonth("2026-01"), now).company).toBe("Upscalix");
   });
