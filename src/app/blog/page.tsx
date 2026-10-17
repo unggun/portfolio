@@ -27,7 +27,7 @@ export default function Blog() {
     <>
       <JsonLd
         schema={buildSchema({
-          as: "blogPosting",
+          as: "webPage",
           title: blog.title,
           description: blog.description,
           path: blog.path,

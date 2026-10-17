@@ -14,7 +14,7 @@ const clip = (over: Partial<SessionClip>): SessionClip => ({
 });
 
 const meta = (title: string, publishedAt: string, track?: "ai" | "commerce" | "audio") => ({
-  metadata: { title, publishedAt, summary: `${title} summary`, image: "", images: [], team: [], track },
+  metadata: { title, publishedAt, summary: `${title} summary`, image: "", images: [] as string[], team: [], track },
   slug: title.toLowerCase().replace(/\W+/g, "-"),
   content: "",
 });
