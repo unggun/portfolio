@@ -1,4 +1,5 @@
 import { home } from "@/content";
+import { ArrangementSection } from "@/components/live/ArrangementSection";
 import { HomeHero } from "@/components/live/HomeHero";
 import { buildMetadata, buildSchema, JsonLd } from "@/lib/seo";
 
@@ -15,6 +16,7 @@ export default function Home() {
         schema={buildSchema({ as: "webPage", title: home.title, description: home.description, path })}
       />
       <HomeHero />
+      <ArrangementSection />
     </>
   );
 }
