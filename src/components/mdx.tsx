@@ -2,7 +2,7 @@ import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
-import { slugify } from "@/lib/slugify";
+import { uniqueSlug } from "@/lib/slugify";
 
 function textOf(node: ReactNode): string {
   if (typeof node === "string" || typeof node === "number") return String(node);
@@ -51,10 +51,13 @@ function createImage({ alt, src }: React.ImgHTMLAttributes<HTMLImageElement>) {
   );
 }
 
-function createHeading(as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+function createHeading(
+  as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6",
+  seen: Map<string, number>,
+) {
   const Tag = as;
   const CustomHeading = ({ children }: { children?: ReactNode }) => {
-    const slug = slugify(textOf(children));
+    const slug = uniqueSlug(textOf(children), seen);
     return (
       <Tag id={slug}>
         {children}
@@ -72,17 +75,20 @@ function Pre({ children }: { children?: ReactNode }) {
   return <pre tabIndex={0}>{children}</pre>;
 }
 
-const components = {
-  h1: createHeading("h1"),
-  h2: createHeading("h2"),
-  h3: createHeading("h3"),
-  h4: createHeading("h4"),
-  h5: createHeading("h5"),
-  h6: createHeading("h6"),
-  img: createImage,
-  a: CustomLink,
-  pre: Pre,
-};
+function createComponents() {
+  const seen = new Map<string, number>();
+  return {
+    h1: createHeading("h1", seen),
+    h2: createHeading("h2", seen),
+    h3: createHeading("h3", seen),
+    h4: createHeading("h4", seen),
+    h5: createHeading("h5", seen),
+    h6: createHeading("h6", seen),
+    img: createImage,
+    a: CustomLink,
+    pre: Pre,
+  };
+}
 
 type CustomMDXProps = MDXRemoteProps & {
   components?: MDXRemoteProps["components"];
@@ -92,7 +98,7 @@ export function CustomMDX(props: CustomMDXProps) {
   return (
     <MDXRemote
       {...props}
-      components={{ ...components, ...(props.components || {}) }}
+      components={{ ...createComponents(), ...(props.components || {}) }}
     />
   );
 }
