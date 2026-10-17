@@ -1,44 +1,44 @@
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
-import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
-import { baseURL, blog, person, newsletter } from "@/resources";
+import { BrowserList } from "@/components/live/BrowserList";
+import { SectionHeading } from "@/components/live/SectionHeading";
+import { blog } from "@/content";
+import { buildMetadata, buildSchema, JsonLd } from "@/lib/seo";
+import { formatDate } from "@/utils/formatDate";
+import { getPosts } from "@/utils/utils";
 
-export async function generateMetadata() {
-  return Meta.generate({
-    title: blog.title,
-    description: blog.description,
-    baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent(blog.title)}`,
-    path: blog.path,
-  });
+export function generateMetadata() {
+  return buildMetadata({ title: blog.title, description: blog.description, path: blog.path });
 }
 
 export default function Blog() {
+  const posts = getPosts(["src", "app", "blog", "posts"]).sort((a, b) =>
+    b.metadata.publishedAt.localeCompare(a.metadata.publishedAt),
+  );
+  const items = posts.map((p) => {
+    const tag: unknown = p.metadata.tag;
+    return {
+      href: `/blog/${p.slug}`,
+      title: p.metadata.title,
+      date: formatDate(p.metadata.publishedAt),
+      tag: typeof tag === "string" && tag.length > 0 ? tag : undefined,
+    };
+  });
+
   return (
-    <Column maxWidth="s">
-      <Schema
-        as="blogPosting"
-        baseURL={baseURL}
-        title={blog.title}
-        description={blog.description}
-        path={blog.path}
-        image={`/api/og/generate?title=${encodeURIComponent(blog.title)}`}
-        author={{
-          name: person.name,
-          url: `${baseURL}/blog`,
-          image: `${baseURL}${person.avatar}`,
-        }}
+    <>
+      <JsonLd
+        schema={buildSchema({
+          as: "blogPosting",
+          title: blog.title,
+          description: blog.description,
+          path: blog.path,
+        })}
       />
-      <Heading marginBottom="l" variant="display-strong-s">
-        {blog.title}
-      </Heading>
-      <Column
-				fillWidth flex={1}>
-				<Posts range={[1,1]} thumbnail direction="column"/>
-				<Posts range={[2,3]} thumbnail/>
-				<Posts range={[4]} columns="2"/>
-			</Column>
-      {newsletter.display && <Mailchimp newsletter={newsletter} />}
-    </Column>
+      <main className="live-wrap py-14 max-md:py-8">
+        <SectionHeading as="h1" lede={blog.description}>
+          Writing
+        </SectionHeading>
+        <BrowserList items={items} label="Posts, newest first" />
+      </main>
+    </>
   );
 }

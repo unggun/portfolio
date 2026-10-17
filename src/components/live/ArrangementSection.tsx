@@ -2,6 +2,7 @@ import { roles } from "@/content/experience";
 import { toSessionClips } from "@/lib/session";
 import { timelineSpan, toMonth } from "@/lib/timeline";
 import { getPosts } from "@/utils/utils";
+import { SectionHeading } from "./SectionHeading";
 import { Arrangement, type Locator } from "./Arrangement";
 
 export function ArrangementSection() {
@@ -17,13 +18,11 @@ export function ArrangementSection() {
 
   return (
     <section id="experience" className="live-wrap py-[72px] max-[920px]:py-12">
-      <h2 className="mb-2.5 text-[clamp(1.9rem,3.6vw,2.9rem)] leading-[1.02] font-extrabold tracking-[-.015em] text-balance [font-variation-settings:'wdth'_125]">
+      <SectionHeading
+        lede="From Magento backends to engineering management to agentic delivery. Scroll to move the playhead, or click any clip."
+      >
         Twelve years on the timeline
-      </h2>
-      <p className="mb-8 max-w-[58ch] text-base text-muted">
-        From Magento backends to engineering management to agentic delivery. Scroll to move the
-        playhead, or click any clip.
-      </p>
+      </SectionHeading>
       <Arrangement roles={roles} locators={locators} span={span} now={now} />
     </section>
   );

@@ -44,6 +44,18 @@ export const about = {
   calendarHref: "https://cal.com/andreas-unggun-parananda",
 };
 
+export const work = {
+  title: `Projects: ${person.name}`,
+  description: `Design and dev projects by ${person.name}`,
+  path: "/work",
+};
+
+export const blog = {
+  title: "Notes on building software with agents",
+  description: `Notes from ${person.name} on agentic development, delivery systems, and what breaks along the way`,
+  path: "/blog",
+};
+
 export const routes = {
   "/": true,
   "/about": true,
