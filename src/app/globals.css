@@ -66,3 +66,9 @@ body {
 .transport .nav a { font-variation-settings: "wdth" 88; }
 .metro i { display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
 .metro i[data-on] { background: var(--accent); }
+
+/* live: session view */
+@keyframes clipbar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.clip-bar { animation: clipbar 4s linear infinite; }
+@keyframes cv-fade { from { opacity: 0; } to { opacity: 1; } }
+.cv-img { animation: cv-fade .35s ease; }
