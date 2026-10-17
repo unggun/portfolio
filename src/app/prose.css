@@ -1,4 +1,15 @@
 .prose-live { max-width: 68ch; font-size: 16px; line-height: 1.75; color: var(--fg); }
+
+/* Inline SVG diagrams in older MDX posts still reference Once UI color
+   variables. Map them onto the Live tokens so they follow both themes. */
+.prose-live {
+  --neutral-on-background-strong: var(--fg);
+  --neutral-on-background-weak: var(--muted);
+  --neutral-alpha-weak: color-mix(in srgb, var(--fg) 8%, transparent);
+  --neutral-alpha-medium: color-mix(in srgb, var(--fg) 24%, transparent);
+  --brand-on-background-medium: var(--accent);
+  --font-body: var(--font-display);
+}
 .prose-live > * + * { margin-top: 1.1em; }
 .prose-live h1, .prose-live h2, .prose-live h3, .prose-live h4, .prose-live h5, .prose-live h6 {
   position: relative; line-height: 1.2; font-weight: 700; scroll-margin-top: calc(var(--tp-h) + 16px);
