@@ -36,9 +36,8 @@
   --color-clip-sand: var(--clip-sand);
   --color-clip-sage: var(--clip-sage);
   --color-on-clip: var(--on-clip);
-  --radius: var(--r);
-  --font-display: var(--font-display), "Helvetica Neue", Arial, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, Menlo, monospace;
+  --font-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, Menlo, monospace;
 }
 
 body {
