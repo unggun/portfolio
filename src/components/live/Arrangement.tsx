@@ -107,9 +107,12 @@ export function Arrangement({ roles, locators, span, now }: Props) {
     choose(i);
   };
 
-  // Keyboard focus on a clip that is translated out of view: bring it in via the playhead.
-  const onClipFocus = (i: number) => {
+  // Keyboard navigation: Tab's keyup lands on the newly focused clip. Not onFocus, which
+  // also fires when the browser restores focus after the window regains it.
+  const onClipKeyUp = (e: React.KeyboardEvent, i: number) => {
+    if (e.key !== "Tab") return;
     if (pinned) scrollToRole(i);
+    choose(i);
   };
 
   const firstYear = Math.floor(span.start / 12) + 1;
@@ -185,7 +188,7 @@ export function Arrangement({ roles, locators, span, now }: Props) {
                         aria-label={`${r.title} at ${r.company}, ${period(r)}`}
                         aria-pressed={ri === selected}
                         onClick={() => onClip(ri)}
-                        onFocus={() => onClipFocus(ri)}
+                        onKeyUp={(e) => onClipKeyUp(e, ri)}
                         className={`absolute top-1.5 bottom-1.5 flex cursor-pointer flex-col overflow-hidden rounded-[var(--r)] border-0 bg-[var(--c)] p-0 text-left text-on-clip ${ri === selected ? "shadow-[0_0_0_2px_var(--accent)]" : ""}`}
                         style={
                           {
