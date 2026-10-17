@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getPosts } from "@/utils/utils";
 import { CustomMDX } from "@/components/mdx";
 import { ArticleHeader } from "@/components/live/ArticleHeader";
+import { ScreenshotGallery } from "@/components/live/ScreenshotGallery";
 import { buildMetadata, buildSchema, JsonLd } from "@/lib/seo";
 import { TRACKS } from "@/lib/session";
 
@@ -65,10 +66,15 @@ export default async function Project(props: Params) {
           backHref="/work"
           backLabel="All work"
           image={image}
+          link={post.metadata.link || undefined}
         />
         <article className="prose-live mt-10">
           <CustomMDX source={post.content} />
         </article>
+        <ScreenshotGallery
+          images={post.metadata.images.filter((src) => src !== image)}
+          title={post.metadata.title}
+        />
       </div>
     </main>
   );

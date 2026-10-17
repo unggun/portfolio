@@ -23,6 +23,13 @@
   color-scheme: light;
 }
 
+/* The transport wraps to two rows at 760px and below (see Transport.tsx). */
+@media (max-width: 760px) {
+  :root { --tp-h: 88px; }
+}
+/* Hash targets (#experience, #skills, heading anchors) land below the sticky transport. */
+html { scroll-padding-top: calc(var(--tp-h) + env(safe-area-inset-top, 0px) + 16px); }
+
 @theme inline {
   --color-bg: var(--bg);
   --color-panel: var(--panel);

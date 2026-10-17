@@ -12,7 +12,7 @@
 }
 .prose-live > * + * { margin-top: 1.1em; }
 .prose-live h1, .prose-live h2, .prose-live h3, .prose-live h4, .prose-live h5, .prose-live h6 {
-  position: relative; line-height: 1.2; font-weight: 700; scroll-margin-top: calc(var(--tp-h) + 16px);
+  position: relative; line-height: 1.2; font-weight: 700;
   font-variation-settings: "wdth" 108;
 }
 .prose-live h1, .prose-live h2 { font-size: 1.6rem; margin-top: 2.2em; }
