@@ -107,8 +107,10 @@ export function Arrangement({ roles, locators, span, now }: Props) {
     });
   };
 
+  // Side roles are skipped by the scroll playhead, so scrolling to one would re-select the
+  // main role it overlaps. Select them in place instead.
   const onClip = (i: number) => {
-    if (pinned) scrollToRole(i);
+    if (pinned && !roles[i].side) scrollToRole(i);
     choose(i);
   };
 
@@ -116,7 +118,7 @@ export function Arrangement({ roles, locators, span, now }: Props) {
   // also fires when the browser restores focus after the window regains it.
   const onClipKeyUp = (e: React.KeyboardEvent, i: number) => {
     if (e.key !== "Tab") return;
-    if (pinned) scrollToRole(i);
+    if (pinned && !roles[i].side) scrollToRole(i);
     choose(i);
   };
 
