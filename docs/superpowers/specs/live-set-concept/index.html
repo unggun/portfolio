@@ -1,0 +1,506 @@
+<title>Andreas Live Set</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: an Ableton Live set. Transport bar = nav, Session view = hero/work, Arrangement = experience, Device chain = skills. */
+:root {
+  --bg: #1c1d1e; --panel: #28292a; --panel-2: #323334; --line: #3d3e3f;
+  --fg: #d8d8d5; --muted: #8f908d; --accent: #f2a23a; --on-accent: #1c1d1e;
+  --t-ai: #b3a3e8; --t-com: #7cc3b4; --t-aud: #e7cd6f; --t-wri: #a8c97a; --on-clip: #18191a;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r: 2px; --tp-h: 52px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #d3d4d0; --panel: #e3e4e0; --panel-2: #ecede9; --line: #b3b4b0;
+  --fg: #1b1c1c; --muted: #575855; --accent: #b4620c; --on-accent: #f4f4f1;
+  --t-ai: #a08ce0; --t-com: #56aa99; --t-aud: #d6b43f; --t-wri: #8cb153; --on-clip: #18191a;
+  color-scheme: light } }
+:root[data-theme="light"] {
+  --bg: #d3d4d0; --panel: #e3e4e0; --panel-2: #ecede9; --line: #b3b4b0;
+  --fg: #1b1c1c; --muted: #575855; --accent: #b4620c; --on-accent: #f4f4f1;
+  --t-ai: #a08ce0; --t-com: #56aa99; --t-aud: #d6b43f; --t-wri: #8cb153; --on-clip: #18191a;
+  color-scheme: light }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-display); font-size: 15px; line-height: 1.5; font-variation-settings: "wdth" 100 }
+a { color: inherit }
+button { font: inherit; color: inherit; cursor: pointer }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.mono { font-family: var(--font-mono) }
+
+/* ---------- Transport bar ---------- */
+.transport { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--panel); border-bottom: 1px solid var(--line) }
+.transport .wrap { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; min-height: var(--tp-h) }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-variation-settings: "wdth" 115; letter-spacing: .01em; text-decoration: none; font-size: 15px }
+.metro { display: flex; gap: 4px }
+.metro i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); display: block }
+.metro i.on { background: var(--accent) }
+.nav { display: flex; gap: 2px; justify-content: center; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none }
+.nav a { font-size: 12.5px; font-weight: 600; text-decoration: none; padding: 5px 12px; border: 1px solid var(--line); background: var(--panel-2); border-radius: var(--r); white-space: nowrap; font-variation-settings: "wdth" 88 }
+.nav a:hover { border-color: var(--accent) }
+.nav a[aria-current="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent) }
+.tp-right { display: flex; align-items: center; gap: 10px }
+.lcd { font-family: var(--font-mono); font-size: 14px; font-weight: 500; background: var(--bg); border: 1px solid var(--line); padding: 4px 10px; border-radius: var(--r); font-variant-numeric: tabular-nums; display: flex; gap: 8px; align-items: baseline }
+.lcd small { font-size: 10px; color: var(--muted); letter-spacing: .06em }
+.theme-btn { border: 1px solid var(--line); background: var(--panel-2); border-radius: var(--r); padding: 5px 10px; font-size: 12px; font-weight: 600 }
+@media (max-width: 760px) {
+  .transport .wrap { grid-template-columns: 1fr auto; padding-block: 8px; gap: 8px }
+  .nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start }
+  .lcd small { display: none }
+}
+
+/* ---------- Hero / Session view ---------- */
+.hero { padding-block: 56px 40px }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: start }
+.role { font-size: 13px; font-weight: 600; color: var(--muted); font-variation-settings: "wdth" 90; margin: 0 0 18px }
+h1 { font-size: clamp(2.6rem, 5.2vw, 4.6rem); line-height: .98; font-weight: 800; font-variation-settings: "wdth" 125; letter-spacing: -.02em; margin: 0 0 22px; text-wrap: balance }
+.sub { font-size: 18px; line-height: 1.5; max-width: 34ch; margin: 0 0 28px; color: var(--fg) }
+.sub span { color: var(--muted) }
+.cta { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: var(--on-accent); text-decoration: none; font-weight: 700; padding: 11px 18px; border-radius: var(--r); white-space: nowrap; transition: transform .15s ease }
+.cta:active { transform: translateY(1px) scale(.98) }
+.cta .rec { width: 9px; height: 9px; border-radius: 50%; background: currentColor }
+@media (max-width: 920px) { .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 36px } .hero { padding-block: 36px 28px } }
+
+.session-scroll { overflow-x: auto }
+.session { display: grid; grid-template-columns: repeat(4, minmax(92px, 1fr)) 76px; gap: 2px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); min-width: 480px }
+.trk { background: var(--panel); padding: 7px 8px 6px; font-size: 11.5px; font-weight: 700; font-variation-settings: "wdth" 85; border-top: 4px solid var(--c); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.trk.master { border-top-color: var(--muted); color: var(--muted) }
+.slot { background: var(--panel-2); height: 46px; border: 0; padding: 0 8px; display: flex; align-items: center; gap: 8px; text-align: left; font-size: 11.5px; font-weight: 600; font-variation-settings: "wdth" 85; position: relative; overflow: hidden }
+.slot.empty { background: var(--panel); cursor: default }
+.slot.empty::before { content: ""; width: 7px; height: 7px; border: 1px solid var(--line); display: block }
+.slot.clip { background: var(--c); color: var(--on-clip) }
+.slot.clip:hover { filter: brightness(1.08) }
+.slot .tri { width: 0; height: 0; border-left: 8px solid currentColor; border-top: 5px solid transparent; border-bottom: 5px solid transparent; flex: none; opacity: .75 }
+.slot .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0 }
+.slot.playing { box-shadow: inset 0 0 0 2px var(--accent) }
+.slot.playing .tri { opacity: 1 }
+.slot.playing::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--on-clip); opacity: .55; transform-origin: left; animation: clipbar 4s linear infinite }
+@keyframes clipbar { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+.scene { background: var(--panel); border: 0; height: 46px; display: flex; align-items: center; gap: 7px; padding: 0 8px; font-family: var(--font-mono); font-size: 11.5px; color: var(--muted) }
+.scene .tri { width: 0; height: 0; border-left: 7px solid currentColor; border-top: 4px solid transparent; border-bottom: 4px solid transparent }
+.scene:hover { color: var(--accent) }
+.stop { background: var(--panel); height: 28px; display: grid; place-items: center }
+.stop i { width: 8px; height: 8px; background: var(--muted); display: block; opacity: .7 }
+
+.clipview { margin-top: 14px; border: 1px solid var(--line); background: var(--panel); border-radius: var(--r); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) }
+.clipview figure { margin: 0; aspect-ratio: 16 / 10; background: var(--bg); overflow: hidden; border-right: 1px solid var(--line); max-width: 100% }
+.clipview img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .35s ease, transform .6s cubic-bezier(.16, 1, .3, 1) }
+.clipview img.swap { opacity: 0; transform: scale(1.03) }
+.cv-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.cv-head { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; font-variation-settings: "wdth" 85; color: var(--muted) }
+.cv-head .sw { width: 10px; height: 10px; background: var(--c); border-radius: 1px }
+.cv-body h3 { margin: 0; font-size: 20px; line-height: 1.2; font-variation-settings: "wdth" 110; font-weight: 750; text-wrap: balance }
+.cv-body p { margin: 0; font-size: 14px; color: var(--muted); max-width: 60ch }
+.cv-link { margin-top: auto; font-size: 13px; font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); align-self: flex-start; padding-bottom: 1px }
+.cv-link:hover { color: var(--accent) }
+@media (max-width: 620px) { .clipview { grid-template-columns: minmax(0, 1fr) } .clipview figure { border-right: 0; border-bottom: 1px solid var(--line) } }
+
+/* ---------- Sections ---------- */
+section.block { padding-block: 72px }
+h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1.02; font-weight: 800; font-variation-settings: "wdth" 125; letter-spacing: -.015em; margin: 0 0 10px; text-wrap: balance }
+.lede { color: var(--muted); max-width: 58ch; margin: 0 0 32px; font-size: 16px }
+
+/* ---------- Arrangement ---------- */
+.arr-wrap { position: relative }
+.arr-wrap.pinned { height: 260vh }
+.arr-sticky { position: relative }
+.arr-wrap.pinned .arr-sticky { position: sticky; top: calc(var(--tp-h) + env(safe-area-inset-top, 0px) + 24px) }
+.arr { display: grid; grid-template-columns: 132px minmax(0, 1fr); border: 1px solid var(--line); border-radius: var(--r); background: var(--line); gap: 1px }
+.lanes-h { display: grid; grid-template-rows: 30px repeat(3, 66px); gap: 1px }
+.lanes-h div { background: var(--panel); padding: 6px 10px; font-size: 12px; font-weight: 700; font-variation-settings: "wdth" 88; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--c, transparent) }
+.lanes-h div:first-child { color: var(--muted); font-family: var(--font-mono); font-weight: 500; font-size: 11px }
+.arr-view { overflow: hidden; background: var(--panel-2); position: relative }
+.arr-wrap:not(.pinned) .arr-view { overflow-x: auto }
+.arr-track { position: relative; height: calc(30px + 3 * 66px + 3px); will-change: transform }
+.ruler { position: absolute; inset: 0 0 auto 0; height: 30px; background: var(--panel); border-bottom: 1px solid var(--line) }
+.ruler .yr { position: absolute; top: 0; height: 30px; border-left: 1px solid var(--line); padding: 4px 0 0 5px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted) }
+.ruler .loc { position: absolute; bottom: 2px; transform: translateX(-5px); display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; font-variation-settings: "wdth" 80; color: var(--fg) }
+.ruler .loc::before { content: ""; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid var(--accent) }
+.lane { position: absolute; left: 0; right: 0; height: 66px; border-bottom: 1px solid var(--line);
+  background-image: repeating-linear-gradient(90deg, transparent 0 calc(var(--yw) - 1px), color-mix(in srgb, var(--line) 70%, transparent) calc(var(--yw) - 1px) var(--yw)) }
+.aclip { position: absolute; top: 6px; bottom: 6px; background: var(--c); color: var(--on-clip); border: 0; border-radius: var(--r); padding: 0; text-align: left; overflow: hidden; display: flex; flex-direction: column }
+.aclip .bar { background: color-mix(in srgb, var(--c) 70%, #000 30%); color: var(--on-clip); font-size: 11px; font-weight: 700; padding: 2px 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variation-settings: "wdth" 85 }
+.aclip .notes { flex: 1; opacity: .45;
+  background-image:
+    repeating-linear-gradient(90deg, var(--on-clip) 0 14px, transparent 14px 22px, var(--on-clip) 22px 30px, transparent 30px 46px),
+    repeating-linear-gradient(90deg, transparent 0 8px, var(--on-clip) 8px 26px, transparent 26px 40px);
+  background-size: 100% 3px, 100% 3px; background-repeat: no-repeat; background-position: 0 30%, 0 70% }
+.aclip.active { box-shadow: 0 0 0 2px var(--accent) }
+.playhead { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--accent); pointer-events: none; z-index: 2 }
+.playhead::before { content: ""; position: absolute; top: 0; left: -5px; border-left: 5.5px solid transparent; border-right: 5.5px solid transparent; border-top: 8px solid var(--accent) }
+.arr-wrap:not(.pinned) .playhead { display: none }
+.arr-detail { margin-top: 14px; display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 24px; align-items: start; min-height: 150px }
+.arr-detail .when { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums }
+.arr-detail h3 { margin: 4px 0 0; font-size: 22px; line-height: 1.15; font-variation-settings: "wdth" 112; font-weight: 750 }
+.arr-detail .co { color: var(--muted); font-weight: 600; font-size: 14px }
+.arr-detail ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; max-width: 70ch }
+.arr-detail li { padding-left: 18px; position: relative; font-size: 15px }
+.arr-detail li::before { content: ""; position: absolute; left: 0; top: .6em; width: 8px; height: 2px; background: var(--accent) }
+@media (max-width: 700px) { .arr { grid-template-columns: 92px minmax(0, 1fr) } .arr-detail { grid-template-columns: minmax(0, 1fr); gap: 10px } }
+
+/* ---------- Device chain ---------- */
+.chain { display: flex; gap: 0; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x proximity }
+.device { flex: 0 0 236px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); display: flex; flex-direction: column; scroll-snap-align: start; transition: opacity .2s ease }
+.device + .device { margin-left: 14px; position: relative }
+.device + .device::before { content: ""; position: absolute; left: -14px; top: 15px; width: 14px; height: 1px; background: var(--muted) }
+.device.off { opacity: .45 }
+.dev-head { display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: var(--panel-2); border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 700; font-variation-settings: "wdth" 88 }
+.pwr { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--line); background: var(--accent); padding: 0; flex: none }
+.device.off .pwr { background: var(--panel) }
+.dev-body { padding: 12px 10px 14px; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; flex: 1;
+  background-image: radial-gradient(color-mix(in srgb, var(--line) 80%, transparent) 1px, transparent 1px); background-size: 8px 8px }
+.chip { font-size: 12px; font-weight: 600; padding: 3px 8px; background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r); font-variation-settings: "wdth" 92 }
+.device.play .dev-head { border-top: 3px solid var(--t-aud) }
+
+/* ---------- Footer ---------- */
+.foot { border-top: 1px solid var(--line); background: var(--panel); padding-block: 64px 40px }
+.foot-grid { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 28px; align-items: center }
+.foot img { width: 76px; height: 76px; object-fit: cover; border-radius: var(--r); display: block; filter: grayscale(.2) }
+.foot h2 { margin: 0 0 6px }
+.foot p { margin: 0; color: var(--muted) }
+.contact { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 28px; font-size: 14px; align-items: center }
+.contact a { font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--line) }
+.contact a:hover { border-color: var(--accent) }
+.copy { border: 1px solid var(--line); background: var(--panel-2); border-radius: var(--r); padding: 3px 9px; font-size: 12px; font-weight: 600 }
+.email { font-family: var(--font-mono); font-size: 13px; user-select: all }
+@media (max-width: 760px) { .foot-grid { grid-template-columns: minmax(0, 1fr) } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important }
+}
+</style>
+
+<header class="transport">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Back to top">
+      <span class="metro" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      Andreas
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work" data-sec="work">Work</a>
+      <a href="#experience" data-sec="experience">Experience</a>
+      <a href="#skills" data-sec="skills">Skills</a>
+      <a href="#contact" data-sec="contact">Contact</a>
+    </nav>
+    <div class="tp-right">
+      <div class="lcd" title="Linear timecode, driven by how far you've scrolled"><small>LTC 25</small><span id="tc">00:00:00:00</span></div>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light and dark theme">Theme</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap" id="work">
+    <div class="hero-grid">
+      <div>
+        <p class="role">Technical Lead at Upscalix</p>
+        <h1>Andreas Unggun Parananda</h1>
+        <p class="sub">Technical lead and AI native engineer building delivery systems that run themselves. <span>Off the clock, a playback engineer and musician.</span></p>
+        <a class="cta" href="https://cal.com/andreas-unggun-parananda" target="_blank" rel="noopener"><span class="rec" aria-hidden="true"></span>Book a call</a>
+      </div>
+      <div>
+        <div class="session-scroll">
+          <div class="session" id="session" role="grid" aria-label="Projects arranged by track and year"></div>
+        </div>
+        <div class="clipview" id="clipview" aria-live="polite">
+          <figure><img id="cvImg" src="img/deputy.jpg" alt=""></figure>
+          <div class="cv-body">
+            <div class="cv-head"><span class="sw" id="cvSw"></span><span id="cvMeta"></span></div>
+            <h3 id="cvTitle"></h3>
+            <p id="cvSum"></p>
+            <a class="cv-link" id="cvLink" href="#" target="_blank" rel="noopener">Read case study ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" id="experience">
+    <h2>Twelve years on the timeline</h2>
+    <p class="lede">From Magento backends to engineering management to agentic delivery. Scroll to move the playhead, or click any clip.</p>
+    <div class="arr-wrap" id="arrWrap">
+      <div class="arr-sticky">
+        <div class="arr">
+          <div class="lanes-h" aria-hidden="true">
+            <div>YEAR</div>
+            <div style="--c: var(--t-aud)">ICUBE</div>
+            <div style="--c: var(--t-com)">SIRCLO</div>
+            <div style="--c: var(--t-ai)">Upscalix</div>
+          </div>
+          <div class="arr-view" id="arrView">
+            <div class="arr-track" id="arrTrack">
+              <div class="ruler" id="ruler"></div>
+              <div class="playhead" id="playhead"></div>
+            </div>
+          </div>
+        </div>
+        <div class="arr-detail" aria-live="polite">
+          <div>
+            <div class="when" id="adWhen"></div>
+            <h3 id="adRole"></h3>
+            <div class="co" id="adCo"></div>
+          </div>
+          <ul id="adList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" id="skills">
+    <h2>The signal chain</h2>
+    <p class="lede">What I reach for, from agent tooling to the rig I run at live shows. Each device can be bypassed, just like in Live.</p>
+    <div class="chain" id="chain"></div>
+  </section>
+</main>
+
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <img src="img/avatar.jpg" alt="Portrait of Andreas Unggun Parananda">
+      <div>
+        <h2>Count me in.</h2>
+        <p>For roles, projects, or a long chat about agents and live playback.</p>
+      </div>
+      <a class="cta" href="https://cal.com/andreas-unggun-parananda" target="_blank" rel="noopener"><span class="rec" aria-hidden="true"></span>Book a call</a>
+    </div>
+    <div class="contact">
+      <span class="email" id="email">andreas.unggun@gmail.com</span>
+      <button class="copy" id="copyBtn" type="button">Copy email</button>
+      <a href="https://github.com/unggun" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/andreas-unggun-parananda-60279a13b/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const SITE = "https://andreas-unggun.my.id";
+
+  /* ---------- Theme ---------- */
+  const root = document.documentElement;
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    root.dataset.theme = cur === "dark" ? "light" : "dark";
+  });
+
+  /* ---------- Session view ---------- */
+  const tracks = [
+    { id: "ai", name: "AI Systems", c: "var(--t-ai)" },
+    { id: "com", name: "Commerce", c: "var(--t-com)" },
+    { id: "aud", name: "Audio Tools", c: "var(--t-aud)" },
+    { id: "wri", name: "Writing", c: "var(--t-wri)" },
+  ];
+  const scenes = ["2026", "2025", "2024", "2023"];
+  const clips = [
+    { scene: "2026", track: "ai", name: "Deputy", title: "Deputy: a resumable software factory, from ticket to merged PR",
+      sum: "Turns tickets assigned to me in ClickUp or Jira into reviewed, merged pull requests. It triages, plans, implements, reviews and handles CI, and stops at a human gate wherever judgement matters.",
+      img: "img/deputy.jpg", meta: "Case study, Oct 2026", href: "/work/deputy-a-resumable-software-factory-from-ticket-to-merged-pr" },
+    { scene: "2026", track: "wri", name: "Review bottleneck", title: "When agents write the code, review becomes the bottleneck",
+      sum: "Going fully agentic on Pulse didn't create a speed problem. It created a review problem, and everything else we built was an answer to it.",
+      img: "img/deputy.jpg", meta: "Blog post, Sep 2026", href: "/blog/when-agents-write-the-code-review-becomes-the-bottleneck", cta: "Read the post ↗" },
+    { scene: "2025", track: "com", name: "Swift Checkout", title: "Swift Checkout: customizable SaaS checkout for e-commerce",
+      sum: "Frees brands from rigid checkout limits in Shopify and Magento with customizable, localized checkout flows on a scalable SaaS platform.",
+      img: "img/swift.jpg", meta: "Case study, Apr 2025", href: "/work/swift-checkout-customizable-saas-checkout-for-ecommerce-platforms" },
+    { scene: "2024", track: "aud", name: "UP LTC Display", title: "UP LTC Display: timecode monitoring plugin for DAWs",
+      sum: "An AU/VST plugin for playback engineers, lighting designers and visual teams. Accurate LTC monitoring inside Ableton Live and Logic Pro.",
+      img: "img/ltc.jpg", meta: "Case study, Jun 2024", href: "/work/up-ltc-display-timecode-monitoring-plugin-for-daws" },
+    { scene: "2023", track: "com", name: "Medbiz", title: "Medbiz: B2B healthcare e-commerce in Indonesia",
+      sum: "Modernizes the pharmacy supply chain with a B2B platform serving thousands of pharmacy owners through real-time inventory, ordering and seller tools.",
+      img: "img/medbiz.jpg", meta: "Case study, Apr 2023", href: "/work/transforming-b2b-healthcare-ecommerce-in-indonesia-through-medbiz" },
+  ];
+
+  const sessionEl = document.getElementById("session");
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  tracks.forEach(t => { const d = h("div", "trk", t.name); d.style.setProperty("--c", t.c); sessionEl.append(d); });
+  sessionEl.append(h("div", "trk master", "Scenes"));
+  const clipBtns = [];
+  scenes.forEach(s => {
+    tracks.forEach(t => {
+      const clip = clips.find(c => c.scene === s && c.track === t.id);
+      if (!clip) { const e = h("div", "slot empty"); e.setAttribute("aria-hidden", "true"); sessionEl.append(e); return; }
+      const b = h("button", "slot clip", `<span class="tri"></span><span class="nm">${clip.name}</span>`);
+      b.type = "button"; b.style.setProperty("--c", t.c); b.setAttribute("aria-label", `Launch ${clip.name}`);
+      b.addEventListener("click", () => launch(clip, b));
+      clip.btn = b; clip.color = t.c; clipBtns.push(b); sessionEl.append(b);
+    });
+    const sb = h("button", "scene", `<span class="tri"></span>${s}`);
+    sb.type = "button"; sb.setAttribute("aria-label", `Launch scene ${s}`);
+    sb.addEventListener("click", () => { const c = clips.find(c => c.scene === s); if (c) launch(c, c.btn); });
+    sessionEl.append(sb);
+  });
+  tracks.forEach(() => sessionEl.append(h("div", "stop", "<i></i>")));
+  sessionEl.append(h("div", "stop", ""));
+
+  const cv = { img: document.getElementById("cvImg"), sw: document.getElementById("cvSw"), meta: document.getElementById("cvMeta"),
+    title: document.getElementById("cvTitle"), sum: document.getElementById("cvSum"), link: document.getElementById("cvLink") };
+  function launch(clip, btn) {
+    clipBtns.forEach(b => b.classList.remove("playing"));
+    btn.classList.add("playing");
+    cv.sw.style.setProperty("--c", clip.color);
+    cv.meta.textContent = clip.meta;
+    cv.title.textContent = clip.title;
+    cv.sum.textContent = clip.sum;
+    cv.link.href = SITE + clip.href;
+    cv.link.textContent = clip.cta || "Read case study ↗";
+    if (cv.img.getAttribute("src") !== clip.img) {
+      if (reduce) { cv.img.src = clip.img; return; }
+      cv.img.classList.add("swap");
+      setTimeout(() => { cv.img.src = clip.img; cv.img.onload = () => cv.img.classList.remove("swap"); }, 180);
+    }
+  }
+  launch(clips[0], clips[0].btn);
+
+  /* ---------- Count-in on load (4 beats at 120 bpm) ---------- */
+  const dots = [...document.querySelectorAll(".metro i")];
+  if (!reduce) {
+    dots.forEach((d, i) => setTimeout(() => { dots.forEach(x => x.classList.remove("on")); d.classList.add("on"); }, 300 + i * 500));
+    setTimeout(() => dots.forEach(x => x.classList.remove("on")), 300 + 4 * 500);
+  }
+
+  /* ---------- Arrangement ---------- */
+  const START = 2014 * 12 + 11;           // Dec 2014
+  const END = 2026 * 12 + 10;             // Nov 2026, just past now
+  const M = (y, m) => y * 12 + (m - 1);
+  const roles = [
+    { lane: 0, co: "ICUBE", role: "Backend Developer", from: M(2014, 12), to: M(2017, 5), when: "Dec 2014 to May 2017", c: "var(--t-aud)",
+      pts: ["Built Magento to ERP order and product integrations with XSL templates, so ops could change mappings without a deploy.",
+            "Shipped B2C, B2B and marketplace stores.",
+            "Trained 20+ new developers on Magento module development."] },
+    { lane: 0, co: "ICUBE", role: "Assistant Engineering Manager", from: M(2017, 6), to: M(2020, 5), when: "Jun 2017 to May 2020", c: "var(--t-aud)",
+      pts: ["Ran the full lifecycle of 7+ projects for clients in the US, Germany, Hong Kong, India and Indonesia.",
+            "Led small teams of 3 to 5 engineers per project."] },
+    { lane: 1, co: "SIRCLO", role: "Assistant Engineering Manager", from: M(2020, 5), to: M(2022, 2), when: "May 2020 to Feb 2022", c: "var(--t-com)",
+      pts: ["Ran a national B2B project for a state-owned enterprise, worth about USD 1.3 million.",
+            "Took a client's Google PageSpeed score from 27 to 92.",
+            "Found and fixed a race condition in reward-point redemption before it cost revenue."] },
+    { lane: 1, co: "SIRCLO", role: "Engineering Manager", from: M(2022, 2), to: M(2025, 4), when: "Feb 2022 to Apr 2025", c: "var(--t-com)",
+      pts: ["Led the team behind a SaaS product with 2,500+ monthly active users.",
+            "Cut QA time by 8 hours per cycle with automated testing.",
+            "Caught a critical price-tampering vulnerability and led the fix."] },
+    { lane: 2, co: "Upscalix", role: "Technical Lead", from: M(2025, 8), to: M(2026, 10), when: "Aug 2025 to now", c: "var(--t-ai)",
+      pts: ["Built a self-healing pipeline: Claude Code routines triage Sentry issues, write fixes and open pull requests.",
+            "Replaced manual developer-KPI tracking with a real-time pipeline.",
+            "Helped build Pulse, which cut operating costs by about USD 500 a month."] },
+  ];
+  const locators = [
+    { name: "Medbiz", at: M(2023, 4) }, { name: "UP LTC Display", at: M(2024, 6) },
+    { name: "Swift Checkout", at: M(2025, 4) }, { name: "Deputy", at: M(2026, 10) },
+  ];
+
+  const wrap = document.getElementById("arrWrap"), view = document.getElementById("arrView"),
+        track = document.getElementById("arrTrack"), ruler = document.getElementById("ruler"), head = document.getElementById("playhead");
+  const total = END - START;
+  let MW = 18, trackW = 0;
+
+  const lanes = [0, 1, 2].map(i => { const l = h("div", "lane"); l.style.top = (31 + i * 67) + "px"; track.insertBefore(l, head); return l; });
+  const aclips = roles.map(r => {
+    const b = h("button", "aclip", `<span class="bar">${r.role}</span><span class="notes"></span>`);
+    b.type = "button"; b.style.setProperty("--c", r.c); b.setAttribute("aria-label", `${r.role} at ${r.co}, ${r.when}`);
+    b.addEventListener("click", () => select(r, true));
+    lanes[r.lane].append(b); r.el = b; return b;
+  });
+
+  function layout() {
+    MW = innerWidth < 700 ? 13 : 18;
+    trackW = total * MW;
+    track.style.width = trackW + "px";
+    lanes.forEach(l => l.style.setProperty("--yw", (12 * MW) + "px"));
+    lanes.forEach(l => l.style.backgroundPosition = `${(12 - (START % 12)) * MW}px 0`);
+    ruler.innerHTML = "";
+    for (let y = 2015; y <= 2026; y++) {
+      const e = h("div", "yr", String(y)); e.style.left = (M(y, 1) - START) * MW + "px"; ruler.append(e);
+    }
+    locators.forEach(l => { const e = h("div", "loc", l.name); e.style.left = (l.at - START) * MW + "px"; ruler.append(e); });
+    roles.forEach(r => { r.el.style.left = (r.from - START) * MW + "px"; r.el.style.width = Math.max(30, (r.to - r.from) * MW - 3) + "px"; });
+    const pin = !reduce && innerWidth >= 700;
+    wrap.classList.toggle("pinned", pin);
+    if (!pin) { track.style.transform = ""; }
+  }
+
+  const ad = { when: document.getElementById("adWhen"), role: document.getElementById("adRole"), co: document.getElementById("adCo"), list: document.getElementById("adList") };
+  let current = null;
+  function select(r, fromClick) {
+    if (fromClick && wrap.classList.contains("pinned")) {
+      const span = wrap.offsetHeight - innerHeight;
+      const p = (r.from + 1 - START) / total;
+      scrollTo({ top: wrap.getBoundingClientRect().top + scrollY + p * span, behavior: reduce ? "auto" : "smooth" });
+    }
+    if (current === r) return;
+    current = r;
+    aclips.forEach(a => a.classList.remove("active"));
+    r.el.classList.add("active");
+    ad.when.textContent = r.when;
+    ad.role.textContent = r.role;
+    ad.co.textContent = r.co;
+    ad.list.innerHTML = r.pts.map(p => `<li>${p}</li>`).join("");
+  }
+  select(roles[roles.length - 1]);
+
+  /* ---------- Scroll: timecode, arrangement follow, nav state ---------- */
+  const tc = document.getElementById("tc");
+  const pad = n => String(n).padStart(2, "0");
+  const navLinks = [...document.querySelectorAll(".nav a")];
+  const secs = navLinks.map(a => document.getElementById(a.dataset.sec));
+  let ticking = false;
+  function frame() {
+    ticking = false;
+    const f = Math.floor(scrollY / 3);   // 3px of scroll = 1 frame at 25 fps
+    tc.textContent = `${pad(Math.floor(f / 90000))}:${pad(Math.floor(f / 1500) % 60)}:${pad(Math.floor(f / 25) % 60)}:${pad(f % 25)}`;
+
+    if (wrap.classList.contains("pinned")) {
+      const rect = wrap.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, -rect.top / (rect.height - innerHeight)));
+      const vw = view.clientWidth, px = p * trackW;
+      const x = Math.min(Math.max(0, px - vw * 0.45), Math.max(0, trackW - vw));
+      track.style.transform = `translate3d(${-x}px,0,0)`;
+      head.style.left = px + "px";
+      const m = START + p * total;
+      const hit = roles.find(r => m >= r.from && m < r.to) || [...roles].reverse().find(r => m >= r.from) || roles[0];
+      select(hit);
+    }
+
+    let active = 0;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.4) active = i; });
+    navLinks.forEach((a, i) => a.setAttribute("aria-current", i === active ? "true" : "false"));
+  }
+  const req = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+  addEventListener("scroll", req, { passive: true });
+  addEventListener("resize", () => { layout(); req(); });
+  layout(); frame();
+
+  /* ---------- Device chain ---------- */
+  const devices = [
+    { name: "AI Engineering", items: ["Claude Code", "Claude Routines", "Agentic AI", "n8n"] },
+    { name: "Backend", items: ["PHP", "Laravel", "Node.js", "Go", "TypeScript"] },
+    { name: "Frontend", items: ["Next.js", "Tailwind CSS", "Vue.js"] },
+    { name: "Data", items: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "Elasticsearch"] },
+    { name: "Commerce", items: ["Adobe Commerce", "Magento", "Shopify"] },
+    { name: "Infra & Messaging", items: ["Docker", "GitHub Actions", "GCP", "AWS", "Vercel", "Firebase", "RabbitMQ", "Pub/Sub"] },
+    { name: "Live Playback", items: ["Ableton Live", "Logic Pro", "LTC sync", "AU / VST"], play: true },
+  ];
+  const chain = document.getElementById("chain");
+  devices.forEach(d => {
+    const el = h("div", "device" + (d.play ? " play" : ""));
+    const hd = h("div", "dev-head");
+    const pw = h("button", "pwr"); pw.type = "button"; pw.setAttribute("aria-pressed", "true"); pw.setAttribute("aria-label", `Bypass ${d.name}`);
+    pw.addEventListener("click", () => { const off = el.classList.toggle("off"); pw.setAttribute("aria-pressed", String(!off)); });
+    hd.append(pw, document.createTextNode(d.name));
+    const body = h("div", "dev-body", d.items.map(i => `<span class="chip">${i}</span>`).join(""));
+    el.append(hd, body); chain.append(el);
+  });
+
+  /* ---------- Copy email ---------- */
+  const copyBtn = document.getElementById("copyBtn");
+  copyBtn.addEventListener("click", () => {
+    const text = document.getElementById("email").textContent;
+    const done = () => { copyBtn.textContent = "Copied"; setTimeout(() => copyBtn.textContent = "Copy email", 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => { getSelection().selectAllChildren(document.getElementById("email")); });
+    else getSelection().selectAllChildren(document.getElementById("email"));
+  });
+})();
+</script>
