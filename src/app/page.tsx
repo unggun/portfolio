@@ -8,12 +8,12 @@ import { buildMetadata, buildSchema, JsonLd } from "@/lib/seo";
 const path = "/";
 
 export function generateMetadata() {
-  return buildMetadata({ title: home.title, description: home.description, path });
+  return buildMetadata({ title: home.title, description: home.description, path, image: "/images/og/home.jpg" });
 }
 
 export default function Home() {
   return (
-    <>
+    <main>
       <JsonLd
         schema={buildSchema({ as: "webPage", title: home.title, description: home.description, path })}
       />
@@ -25,6 +25,6 @@ export default function Home() {
         </SectionHeading>
         <DeviceChain devices={devices} />
       </section>
-    </>
+    </main>
   );
 }

@@ -73,3 +73,9 @@ body {
 .clip-bar { animation: clipbar 4s linear infinite; }
 @keyframes cv-fade { from { opacity: 0; } to { opacity: 1; } }
 .cv-img { animation: cv-fade .35s ease; }
+
+/* Pinned Arrangement geometry. Must match PINNED_QUERY in src/components/live/Arrangement.tsx. */
+@media (min-width: 761px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+  .arr-wrap { height: 260vh; }
+  .arr-stick { position: sticky; top: calc(var(--tp-h) + env(safe-area-inset-top, 0px) + 24px); }
+}

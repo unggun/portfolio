@@ -31,7 +31,7 @@ export function DeviceChain({ devices }: { devices: Device[] }) {
             <div className="flex items-center gap-2 border-b border-line bg-panel-2 px-2 py-1.5 text-xs font-bold [font-variation-settings:'wdth'_88]">
               <button
                 type="button"
-                aria-pressed={on}
+                aria-pressed={!on}
                 aria-label={`Bypass ${d.name}`}
                 onClick={() => toggle(d.name)}
                 className={`relative h-3.5 w-3.5 flex-none rounded-full border border-line p-0 before:absolute before:-inset-2 before:content-[''] ${on ? "bg-accent" : "bg-panel"}`}

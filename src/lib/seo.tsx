@@ -73,8 +73,10 @@ export function buildSchema({
 }: SchemaInput): Record<string, unknown> {
   const url = `${normalizedBase}${normalizePath(path)}`;
   const imageUrl = image
-    ? `${normalizedBase}${normalizePath(image)}`
-    : `${normalizedBase}/og?title=${encodeURIComponent(title)}`;
+    ? image.startsWith("http")
+      ? image
+      : `${normalizedBase}${normalizePath(image)}`
+    : `${normalizedBase}/api/og/generate?title=${encodeURIComponent(title)}`;
 
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -102,7 +104,7 @@ export function JsonLd({ schema }: { schema: Record<string, unknown> }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
     />
   );
 }

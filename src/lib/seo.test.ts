@@ -29,4 +29,16 @@ describe("buildSchema", () => {
     expect(s.author.name).toBe("Andreas Unggun Parananda");
     expect(s.url).toBe("https://andreas-unggun.my.id/blog/t");
   });
+
+  it("falls back to the generated OG card when no image is given", () => {
+    const s = buildSchema({ as: "webPage", title: "A B", description: "d", path: "/" });
+    expect(s.image).toBe("https://andreas-unggun.my.id/api/og/generate?title=A%20B");
+  });
+
+  it("resolves relative images and keeps absolute ones", () => {
+    const rel = buildSchema({ as: "webPage", title: "T", description: "d", path: "/", image: "/images/x.jpg" });
+    expect(rel.image).toBe("https://andreas-unggun.my.id/images/x.jpg");
+    const abs = buildSchema({ as: "webPage", title: "T", description: "d", path: "/", image: "https://cdn.example.com/x.jpg" });
+    expect(abs.image).toBe("https://cdn.example.com/x.jpg");
+  });
 });

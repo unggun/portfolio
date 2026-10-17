@@ -28,7 +28,7 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
     title: post.metadata.title,
     description: post.metadata.summary,
     path: `/blog/${post.slug}`,
-    image: post.metadata.image || undefined,
+    image: post.metadata.images[0] || post.metadata.image || undefined,
     type: "article",
     publishedTime: post.metadata.publishedAt,
   });
@@ -48,7 +48,7 @@ export default async function Blog(props: Params) {
           title: post.metadata.title,
           description: post.metadata.summary,
           path: `/blog/${post.slug}`,
-          image: post.metadata.image || undefined,
+          image,
           datePublished: post.metadata.publishedAt,
           dateModified: post.metadata.publishedAt,
         })}

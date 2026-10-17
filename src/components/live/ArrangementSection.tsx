@@ -18,7 +18,7 @@ export function ArrangementSection() {
   return (
     <section id="experience" className="live-wrap py-[72px] max-[920px]:py-12">
       <SectionHeading
-        lede="From Magento backends to engineering management to agentic delivery. Scroll to move the playhead, or click any clip."
+        lede="From Magento backends to engineering management to agentic delivery. Scroll through it, or pick any clip."
       >
         Twelve years on the timeline
       </SectionHeading>

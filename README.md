@@ -50,7 +50,7 @@ clipName: "Short clip label"
 ```
 
 - `track` is required and must be one of `ai`, `commerce` or `audio`. The build fails without it.
-- `clipName` is optional. It sets the label of the project's clip in the arrangement view. Without it, the title is used.
+- `clipName` is optional. It sets the label of the project's clip in the Session view and of its locator in the Arrangement view. Without it, the title before the first colon is used.
 
 ### Add a blog post
 

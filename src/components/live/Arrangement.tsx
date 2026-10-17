@@ -20,6 +20,10 @@ const LANES: { id: Lane; color: string }[] = [
   { id: "Upscalix", color: "var(--clip-lilac)" },
 ];
 
+// Keep in sync with the `.arr-wrap` / `.arr-stick` rule in src/app/globals.css.
+export const PINNED_QUERY =
+  "(min-width: 761px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)";
+
 const laneTop = (i: number) => 31 + i * 67;
 const NOTES_BG = [
   "repeating-linear-gradient(90deg, var(--on-clip) 0 14px, transparent 14px 22px, var(--on-clip) 22px 30px, transparent 30px 46px)",
@@ -48,7 +52,7 @@ export function Arrangement({ roles, locators, span, now }: Props) {
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start start", "end end"] });
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 700px)");
+    const mq = window.matchMedia(PINNED_QUERY);
     const update = () => setWide(mq.matches);
     update();
     mq.addEventListener("change", update);
@@ -123,11 +127,9 @@ export function Arrangement({ roles, locators, span, now }: Props) {
   const role = roles[selected];
 
   return (
-    <div ref={wrapRef} className="relative" style={pinned ? { height: "260vh" } : undefined}>
+    <div ref={wrapRef} className="arr-wrap relative">
       <div
-        className={
-          pinned ? "sticky top-[calc(var(--tp-h)+env(safe-area-inset-top,0px)+24px)]" : "relative"
-        }
+        className="arr-stick relative"
       >
         <div className="grid grid-cols-[132px_minmax(0,1fr)] gap-px rounded-[var(--r)] border border-line bg-line max-[699px]:grid-cols-[92px_minmax(0,1fr)]">
           <div
