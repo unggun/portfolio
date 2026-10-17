@@ -1,18 +1,10 @@
 import { about, home, person } from "@/content";
-import { buildSessionGrid, toSessionClips } from "@/lib/session";
-import { getPosts } from "@/utils/utils";
+import { getSessionData } from "@/lib/session-data";
 import { CtaButton } from "./CtaButton";
 import { SessionView } from "./SessionView";
 
 export function HomeHero() {
-  const projects = getPosts(["src", "app", "work", "projects"], { requireTrack: true });
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  const clips = toSessionClips(projects, posts);
-  const scenes = buildSessionGrid(clips);
-  const newestWork = clips
-    .filter((c) => c.kind === "work")
-    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))[0];
-  if (!newestWork) throw new Error("No work clips found for the session view");
+  const { scenes, initialSlug } = getSessionData();
 
   // The subline ends with the "Off the clock..." sentence, rendered muted.
   const cut = home.subline.indexOf("Off the clock");
@@ -35,7 +27,7 @@ export function HomeHero() {
           </p>
           <CtaButton href={about.calendarHref} label="Book a call" />
         </div>
-        <SessionView scenes={scenes} initialSlug={newestWork.slug} />
+        <SessionView scenes={scenes} initialSlug={initialSlug} />
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 import { roles } from "@/content/experience";
-import { toSessionClips } from "@/lib/session";
+import { getSessionData } from "@/lib/session-data";
 import { timelineSpan, toMonth } from "@/lib/timeline";
-import { getPosts } from "@/utils/utils";
 import { SectionHeading } from "./SectionHeading";
 import { Arrangement, type Locator } from "./Arrangement";
 
@@ -11,8 +10,8 @@ export function ArrangementSection() {
   const now = toMonth(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
   const span = timelineSpan(roles, now);
 
-  const projects = getPosts(["src", "app", "work", "projects"], { requireTrack: true });
-  const locators: Locator[] = toSessionClips(projects, [])
+  const locators: Locator[] = getSessionData()
+    .clips.filter((c) => c.kind === "work")
     .map((c) => ({ name: c.name, at: toMonth(c.publishedAt.slice(0, 7)) }))
     .filter((l) => l.at >= span.start && l.at < span.end);
 

@@ -3,7 +3,8 @@ import { BrowserList } from "@/components/live/BrowserList";
 import { SessionView } from "@/components/live/SessionView";
 import { work } from "@/content";
 import { buildMetadata, buildSchema, JsonLd } from "@/lib/seo";
-import { buildSessionGrid, toSessionClips, TRACKS } from "@/lib/session";
+import { getSessionData } from "@/lib/session-data";
+import { TRACKS } from "@/lib/session";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
 
@@ -13,17 +14,10 @@ export function generateMetadata() {
 
 export default function Work() {
   const projects = getPosts(["src", "app", "work", "projects"], { requireTrack: true });
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  const clips = toSessionClips(projects, posts);
-  const scenes = buildSessionGrid(clips);
-  const byDate = (a: string, b: string) => b.localeCompare(a);
+  const { scenes, initialSlug } = getSessionData();
   const sortedProjects = [...projects].sort((a, b) =>
-    byDate(a.metadata.publishedAt, b.metadata.publishedAt),
+    b.metadata.publishedAt.localeCompare(a.metadata.publishedAt),
   );
-  const newest = clips
-    .filter((c) => c.kind === "work")
-    .sort((a, b) => byDate(a.publishedAt, b.publishedAt))[0];
-  if (!newest) throw new Error("No work clips found for the session view");
 
   const items = sortedProjects.map((p) => ({
     href: `/work/${p.slug}`,
@@ -45,7 +39,7 @@ export default function Work() {
       <main className="live-wrap py-14 max-md:py-8">
         <SectionHeading as="h1">Work</SectionHeading>
         <div className="mb-14">
-          <SessionView scenes={scenes} initialSlug={newest.slug} />
+          <SessionView scenes={scenes} initialSlug={initialSlug} />
         </div>
         <BrowserList items={items} label="Projects, newest first" />
       </main>
