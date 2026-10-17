@@ -9,6 +9,8 @@ type Team = {
   linkedIn: string;
 };
 
+export type Track = "ai" | "commerce" | "audio" | "writing";
+
 type Metadata = {
   title: string;
   publishedAt: string;
@@ -18,6 +20,7 @@ type Metadata = {
   tag?: string;
   team: Team[];
   link?: string;
+  track?: Track;
 };
 
 import { notFound } from 'next/navigation';
@@ -30,13 +33,19 @@ function getMDXFiles(dir: string) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
 }
 
-function readMDXFile(filePath: string) {
+const WORK_TRACKS = ["ai", "commerce", "audio"];
+
+function readMDXFile(filePath: string, requireTrack = false) {
     if (!fs.existsSync(filePath)) {
         notFound();
     }
 
   const rawContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(rawContent);
+
+  if (requireTrack && !WORK_TRACKS.includes(data.track)) {
+    throw new Error(`Missing or invalid track in ${filePath}`);
+  }
 
   const metadata: Metadata = {
     title: data.title || "",
@@ -47,15 +56,16 @@ function readMDXFile(filePath: string) {
     tag: data.tag || [],
     team: data.team || [],
     link: data.link || "",
+    track: data.track,
   };
 
   return { metadata, content };
 }
 
-function getMDXData(dir: string) {
+function getMDXData(dir: string, requireTrack = false) {
   const mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
-    const { metadata, content } = readMDXFile(path.join(dir, file));
+    const { metadata, content } = readMDXFile(path.join(dir, file), requireTrack);
     const slug = path.basename(file, path.extname(file));
 
     return {
@@ -66,7 +76,10 @@ function getMDXData(dir: string) {
   });
 }
 
-export function getPosts(customPath = ["", "", "", ""]) {
+export function getPosts(
+  customPath = ["", "", "", ""],
+  opts: { requireTrack?: boolean } = {},
+) {
   const postsDir = path.join(process.cwd(), ...customPath);
-  return getMDXData(postsDir);
+  return getMDXData(postsDir, opts.requireTrack);
 }

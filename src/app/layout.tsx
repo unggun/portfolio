@@ -1,20 +1,19 @@
 import "./globals.css";
 
-import { Meta } from "@once-ui-system/core";
 import { Providers } from "@/components";
-import { baseURL, home } from "@/resources";
+import { home } from "@/content";
+import { buildMetadata } from "@/lib/seo";
 import { fonts } from "@/lib/fonts";
 import { themeInitScript } from "@/lib/theme-script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export async function generateMetadata() {
-  return Meta.generate({
+  return buildMetadata({
     title: home.title,
     description: home.description,
-    baseURL: baseURL,
-    path: home.path,
-    image: home.image,
+    path: "/",
+    image: "/images/og/home.jpg",
   });
 }
 
