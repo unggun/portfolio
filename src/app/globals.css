@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #1c1d1e; --panel: #28292a; --panel-2: #323334; --line: #3d3e3f;
+  --fg: #d8d8d5; --muted: #8f908d; --accent: #f2a23a; --on-accent: #1c1d1e;
+  --clip-lilac: #b3a3e8; --clip-teal: #7cc3b4; --clip-sand: #e7cd6f; --clip-sage: #a8c97a; --on-clip: #18191a;
+  --r: 2px; --tp-h: 52px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #d3d4d0; --panel: #e3e4e0; --panel-2: #ecede9; --line: #b3b4b0;
+    --fg: #1b1c1c; --muted: #575855; --accent: #b4620c; --on-accent: #f4f4f1;
+    --clip-lilac: #a08ce0; --clip-teal: #56aa99; --clip-sand: #d6b43f; --clip-sage: #8cb153; --on-clip: #18191a;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #d3d4d0; --panel: #e3e4e0; --panel-2: #ecede9; --line: #b3b4b0;
+  --fg: #1b1c1c; --muted: #575855; --accent: #b4620c; --on-accent: #f4f4f1;
+  --clip-lilac: #a08ce0; --clip-teal: #56aa99; --clip-sand: #d6b43f; --clip-sage: #8cb153; --on-clip: #18191a;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-clip-lilac: var(--clip-lilac);
+  --color-clip-teal: var(--clip-teal);
+  --color-clip-sand: var(--clip-sand);
+  --color-clip-sage: var(--clip-sage);
+  --color-on-clip: var(--on-clip);
+  --radius: var(--r);
+  --font-display: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, Menlo, monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.5;
+  font-variation-settings: "wdth" 100;
+}
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

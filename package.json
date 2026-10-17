@@ -6,24 +6,29 @@
     "export": "next export",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
     "@next/mdx": "^15.3.1",
     "@once-ui-system/core": "^1.2.4",
+    "@phosphor-icons/react": "^2.1.10",
+    "@tailwindcss/postcss": "^4.3.3",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "classnames": "^2.5.1",
     "cookie": "^1.0.2",
     "gray-matter": "^4.0.3",
+    "motion": "^14.3.0",
     "next": "^15.3.6",
     "next-mdx-remote": "^6.0.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-icons": "^5.5.0",
     "react-masonry-css": "^1.0.16",
-    "sass": "^1.86.3"
+    "sass": "^1.86.3",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",
@@ -32,6 +37,7 @@
     "@types/react-dom": "^18.3.6",
     "eslint": "^9.25.0",
     "eslint-config-next": "^15.3.6",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.7"
   }
 }
