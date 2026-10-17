@@ -53,3 +53,16 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* live: transport */
+.live-wrap {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.transport .brand { font-variation-settings: "wdth" 115; }
+.transport .nav { scrollbar-width: none; }
+.transport .nav a { font-variation-settings: "wdth" 88; }
+.metro i { display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.metro i[data-on] { background: var(--accent); }

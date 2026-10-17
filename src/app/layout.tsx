@@ -1,6 +1,8 @@
 import "./globals.css";
 
 import { Providers } from "@/components";
+import { Transport } from "@/components/live/Transport";
+import { Footer } from "@/components/live/Footer";
 import { home } from "@/content";
 import { buildMetadata } from "@/lib/seo";
 import { fonts } from "@/lib/fonts";
@@ -32,7 +34,11 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Transport />
+          {children}
+          <Footer />
+        </Providers>
         <Analytics />
         <SpeedInsights />
       </body>
