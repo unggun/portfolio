@@ -57,6 +57,12 @@ describe("toSessionClips", () => {
   });
 });
 
+describe("toSessionClips validation", () => {
+  it("throws for a project without a valid track", () => {
+    expect(() => toSessionClips([meta("No Track", "2025-01-01")], [])).toThrow(/Unknown track/);
+  });
+});
+
 describe("buildSessionGrid", () => {
   it("builds year scenes newest first", () => {
     const grid = buildSessionGrid(toSessionClips(projects, posts));
@@ -73,6 +79,10 @@ describe("buildSessionGrid", () => {
     expect(grid[1].slots[1]?.slug).toBe("a");
     const total = grid.flatMap((s) => s.slots).filter(Boolean).length;
     expect(total).toBe(2);
+  });
+  it("throws on an unknown track instead of dropping the clip", () => {
+    const bad = clip({ slug: "v", track: "video" as never });
+    expect(() => buildSessionGrid([bad])).toThrow(/Unknown track "video" for clip/);
   });
   it("returns [] for no clips", () => {
     expect(buildSessionGrid([])).toEqual([]);

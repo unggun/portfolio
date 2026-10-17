@@ -27,6 +27,7 @@ export function buildSessionGrid(clips: SessionClip[]): Scene[] {
   for (const clip of sorted) {
     const label = clip.publishedAt.slice(0, 4);
     const col = TRACKS.findIndex((t) => t.id === clip.track);
+    if (col < 0) throw new Error(`Unknown track "${clip.track}" for clip ${clip.slug}`);
     let scene = scenes.find((s) => s.label === label && s.slots[col] === null);
     if (!scene) {
       scene = { label, slots: TRACKS.map(() => null) };
@@ -56,11 +57,14 @@ type Source = {
 
 function toClip(item: Source, kind: "work" | "blog"): SessionClip {
   const { metadata, slug } = item;
+  const track: Track | undefined =
+    kind === "blog" ? "writing" : TRACKS.find((t) => t.id === metadata.track)?.id;
+  if (!track) throw new Error(`Unknown track "${metadata.track}" for clip ${slug}`);
   const image = metadata.images?.[0] || metadata.image || undefined;
   return {
     slug,
     kind,
-    track: kind === "blog" ? "writing" : (metadata.track as Track),
+    track,
     name: metadata.title.split(":")[0].trim(),
     title: metadata.title,
     summary: metadata.summary,
