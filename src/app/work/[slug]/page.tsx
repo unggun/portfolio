@@ -1,99 +1,75 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getPosts } from "@/utils/utils";
-import { Meta, Schema, AvatarGroup, Button, Column, Flex, Heading, Media, Text } from "@once-ui-system/core";
-import { baseURL, about, person, work } from "@/resources";
-import { formatDate } from "@/utils/formatDate";
-import { ScrollToHash, CustomMDX } from "@/components";
-import { Metadata } from "next";
+import { CustomMDX } from "@/components/mdx";
+import { ArticleHeader } from "@/components/live/ArticleHeader";
+import { buildMetadata, buildSchema, JsonLd } from "@/lib/seo";
+import { TRACKS } from "@/lib/session";
+
+const getProjects = () =>
+  getPosts(["src", "app", "work", "projects"], { requireTrack: true });
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "work", "projects"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return getProjects().map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string | string[] }>;
-}): Promise<Metadata> {
+type Params = { params: Promise<{ slug: string | string[] }> };
+
+async function findPost({ params }: Params) {
   const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug) ? routeParams.slug.join('/') : routeParams.slug || '';
+  const slugPath = Array.isArray(routeParams.slug)
+    ? routeParams.slug.join("/")
+    : routeParams.slug || "";
+  return getProjects().find((post) => post.slug === slugPath);
+}
 
-  const posts = getPosts(["src", "app", "work", "projects"])
-  let post = posts.find((post) => post.slug === slugPath);
-
+export async function generateMetadata(props: Params): Promise<Metadata> {
+  const post = await findPost(props);
   if (!post) return {};
-
-  return Meta.generate({
+  return buildMetadata({
     title: post.metadata.title,
     description: post.metadata.summary,
-    baseURL: baseURL,
-    image: post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
-    path: `${work.path}/${post.slug}`,
+    path: `/work/${post.slug}`,
+    image: post.metadata.image || undefined,
+    type: "article",
+    publishedTime: post.metadata.publishedAt,
   });
 }
 
-export default async function Project({
-  params
-}: { params: Promise<{ slug: string | string[] }> }) {
-  const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug) ? routeParams.slug.join('/') : routeParams.slug || '';
+export default async function Project(props: Params) {
+  const post = await findPost(props);
+  if (!post) notFound();
 
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slugPath);
-
-  if (!post) {
-    notFound();
-  }
-
-  const avatars =
-    post.metadata.team?.map((person) => ({
-      src: person.avatar,
-    })) || [];
+  const path = `/work/${post.slug}`;
+  const color = TRACKS.find((t) => t.id === post.metadata.track)?.color ?? "var(--clip-sage)";
+  const image = post.metadata.images[0] || post.metadata.image || undefined;
 
   return (
-    <Column as="section" maxWidth="m" horizontal="center" gap="l">
-      <Schema
-        as="blogPosting"
-        baseURL={baseURL}
-        path={`${work.path}/${post.slug}`}
-        title={post.metadata.title}
-        description={post.metadata.summary}
-        datePublished={post.metadata.publishedAt}
-        dateModified={post.metadata.publishedAt}
-        image={post.metadata.image || `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`}
-        author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
-        }}
+    <main className="live-wrap py-10">
+      <JsonLd
+        schema={buildSchema({
+          as: "blogPosting",
+          title: post.metadata.title,
+          description: post.metadata.summary,
+          path,
+          image: post.metadata.image || undefined,
+          datePublished: post.metadata.publishedAt,
+          dateModified: post.metadata.publishedAt,
+        })}
       />
-      <Column maxWidth="xs" gap="16">
-        <Button data-border="rounded" href="/work" variant="tertiary" weight="default" size="s" prefixIcon="chevronLeft">
-          Projects
-        </Button>
-        <Heading variant="display-strong-s">{post.metadata.title}</Heading>
-      </Column>
-      {post.metadata.images.length > 0 && (
-        <Media
-          priority
-          aspectRatio="16 / 9"
-          radius="m"
-          alt="image"
-          src={post.metadata.images[0]}
+      <div className="mx-auto max-w-[960px]">
+        <ArticleHeader
+          title={post.metadata.title}
+          date={post.metadata.publishedAt}
+          color={color}
+          backHref="/work"
+          backLabel="All work"
+          image={image}
         />
-      )}
-      <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
-        <Flex gap="12" marginBottom="24" vertical="center">
-          {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="m" />}
-          <Text variant="body-default-s" onBackground="neutral-weak">
-            {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
-          </Text>
-        </Flex>
-        <CustomMDX source={post.content} />
-      </Column>
-      <ScrollToHash />
-    </Column>
+        <article className="prose-live mt-10">
+          <CustomMDX source={post.content} />
+        </article>
+      </div>
+    </main>
   );
 }

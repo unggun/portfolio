@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./prose.css";
 
 :root {
   --bg: #1c1d1e; --panel: #28292a; --panel-2: #323334; --line: #3d3e3f;
