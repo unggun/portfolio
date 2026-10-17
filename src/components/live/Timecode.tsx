@@ -1,15 +1,18 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useMotionValueEvent, useScroll } from "motion/react";
 import { formatTimecode, scrollToFrames } from "@/lib/timecode";
 
 export function Timecode() {
   const ref = useRef<HTMLSpanElement>(null);
   const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (y) => {
+  const write = (y: number) => {
     if (ref.current) ref.current.textContent = formatTimecode(scrollToFrames(y));
-  });
+  };
+  useMotionValueEvent(scrollY, "change", write);
+  // Sync once on mount so a restored scroll position is reflected immediately.
+  useEffect(() => write(scrollY.get()), [scrollY]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div
       className="lcd flex items-baseline gap-2 rounded-[var(--r)] border border-line bg-bg px-2.5 py-1 font-mono text-[14px] font-medium tabular-nums"
