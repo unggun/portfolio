@@ -91,11 +91,7 @@ export function Arrangement({ roles, locators, span, now }: Props) {
     return () => ro.disconnect();
   }, [sync, pinned]);
 
-  const onClip = (i: number) => {
-    if (!pinned) {
-      choose(i);
-      return;
-    }
+  const scrollToRole = (i: number) => {
     const wrap = wrapRef.current;
     if (!wrap) return;
     const p = (toMonth(roles[i].from) + 1 - span.start) / total;
@@ -104,7 +100,16 @@ export function Arrangement({ roles, locators, span, now }: Props) {
       top: top + p * (wrap.offsetHeight - window.innerHeight),
       behavior: reduce ? "auto" : "smooth",
     });
+  };
+
+  const onClip = (i: number) => {
+    if (pinned) scrollToRole(i);
     choose(i);
+  };
+
+  // Keyboard focus on a clip that is translated out of view: bring it in via the playhead.
+  const onClipFocus = (i: number) => {
+    if (pinned) scrollToRole(i);
   };
 
   const firstYear = Math.floor(span.start / 12) + 1;
@@ -135,7 +140,7 @@ export function Arrangement({ roles, locators, span, now }: Props) {
           </div>
           <div
             ref={viewRef}
-            className={`relative bg-panel-2 ${pinned ? "overflow-hidden" : "overflow-x-auto"}`}
+            className={`relative bg-panel-2 ${pinned ? "overflow-clip" : "overflow-x-auto"}`}
           >
             <div
               ref={trackRef}
@@ -180,6 +185,7 @@ export function Arrangement({ roles, locators, span, now }: Props) {
                         aria-label={`${r.title} at ${r.company}, ${period(r)}`}
                         aria-pressed={ri === selected}
                         onClick={() => onClip(ri)}
+                        onFocus={() => onClipFocus(ri)}
                         className={`absolute top-1.5 bottom-1.5 flex cursor-pointer flex-col overflow-hidden rounded-[var(--r)] border-0 bg-[var(--c)] p-0 text-left text-on-clip ${ri === selected ? "shadow-[0_0_0_2px_var(--accent)]" : ""}`}
                         style={
                           {
