@@ -1,105 +1,73 @@
 import { ImageResponse } from "next/og";
-import { baseURL, person } from "@/resources";
+import { baseURL, person } from "@/content";
 
 export const runtime = "nodejs";
 
-export async function GET(request: Request) {
-  let url = new URL(request.url);
-  let title = url.searchParams.get("title") || "Portfolio";
+const BG = "#1c1d1e";
+const TEXT = "#d8d8d5";
+const ACCENT = "#f2a23a";
 
-  async function loadGoogleFont(font: string) {
-    const url = `https://fonts.googleapis.com/css2?family=${font}`
-    const css = await (await fetch(url)).text()
-    const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/)
+async function loadGoogleFont(font: string) {
+  const url = `https://fonts.googleapis.com/css2?family=${font}`;
+  const css = await (await fetch(url)).text();
+  const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
 
-    if (resource) {
-      const response = await fetch(resource[1])
-      if (response.status == 200) {
-        return await response.arrayBuffer()
-      }
+  if (resource) {
+    const response = await fetch(resource[1]);
+    if (response.status == 200) {
+      return await response.arrayBuffer();
     }
-
-    throw new Error('failed to load font data')
   }
+
+  throw new Error("failed to load font data");
+}
+
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const title = url.searchParams.get("title") || "Portfolio";
+  const host = baseURL.replace(/^https?:\/\//, "");
 
   return new ImageResponse(
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
         width: "100%",
         height: "100%",
-        padding: "6rem",
-        background: "#151515",
+        padding: "80px",
+        background: BG,
+        color: TEXT,
+        fontFamily: "Archivo",
       }}
     >
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: "4rem",
-          fontStyle: "normal",
-          color: "white",
+          fontSize: 96,
+          fontWeight: 800,
+          lineHeight: 1.05,
+          letterSpacing: "-0.03em",
+          textAlign: "left",
+          overflow: "hidden",
         }}
       >
-        <span
-          style={{
-            padding: "1rem",
-            fontSize: "6rem",
-            lineHeight: "8rem",
-            letterSpacing: "-0.05em",
-            whiteSpace: "wrap",
-            textWrap: "balance",
-            overflow: "hidden"
-          }}
-        >
-          {title}
-        </span>
+        {title}
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: "5rem",
+            fontSize: 32,
+            fontWeight: 800,
+            letterSpacing: "0.12em",
+            color: ACCENT,
           }}
         >
-          <img
-            src={baseURL + person.avatar}
-            style={{
-              width: "12rem",
-              height: "12rem",
-              objectFit: "cover",
-              borderRadius: "100%",
-            }}
-          />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.75rem",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "4.5rem",
-                lineHeight: "4.5rem",
-                whiteSpace: "pre-wrap",
-                textWrap: "balance",
-              }}
-            >
-              {person.name}
-            </span>
-            <span
-              style={{
-                fontSize: "2.5rem",
-                lineHeight: "2.5rem",
-                whiteSpace: "pre-wrap",
-                textWrap: "balance",
-                opacity: "0.6",
-              }}
-            >
-              {person.role}
-            </span>
-          </div>
+          {`00:00:00:00  ${host}`}
+        </div>
+        <div style={{ display: "flex", fontSize: 40, fontWeight: 800 }}>
+          {person.name}
         </div>
       </div>
     </div>,
@@ -108,8 +76,9 @@ export async function GET(request: Request) {
       height: 720,
       fonts: [
         {
-          name: "Geist",
-          data: await loadGoogleFont('Geist:wght@400'),
+          name: "Archivo",
+          data: await loadGoogleFont("Archivo:wght@800"),
+          weight: 800,
           style: "normal",
         },
       ],
