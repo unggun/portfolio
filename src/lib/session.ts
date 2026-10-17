@@ -51,6 +51,7 @@ type Source = {
     image?: string;
     images?: string[];
     track?: Track;
+    clipName?: string;
   };
   slug: string;
 };
@@ -65,7 +66,7 @@ function toClip(item: Source, kind: "work" | "blog"): SessionClip {
     slug,
     kind,
     track,
-    name: metadata.title.split(":")[0].trim(),
+    name: metadata.clipName?.trim() || metadata.title.split(":")[0].trim(),
     title: metadata.title,
     summary: metadata.summary,
     image,

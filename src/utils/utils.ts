@@ -21,6 +21,7 @@ type Metadata = {
   team: Team[];
   link?: string;
   track?: Track;
+  clipName?: string;
 };
 
 import { notFound } from 'next/navigation';
@@ -57,6 +58,7 @@ function readMDXFile(filePath: string, requireTrack = false) {
     team: data.team || [],
     link: data.link || "",
     track: data.track,
+    clipName: data.clipName || undefined,
   };
 
   return { metadata, content };

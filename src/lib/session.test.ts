@@ -57,6 +57,16 @@ describe("toSessionClips", () => {
   });
 });
 
+describe("clipName", () => {
+  it("prefers clipName, else the colon rule", () => {
+    const a = { ...meta("Long Title: Sub", "2025-01-01", "ai"), metadata: { ...meta("Long Title: Sub", "2025-01-01", "ai").metadata, clipName: "Short" } };
+    const b = meta("Long Title: Sub", "2025-01-01", "ai");
+    const [ca, cb] = toSessionClips([a, b], []);
+    expect(ca.name).toBe("Short");
+    expect(cb.name).toBe("Long Title");
+  });
+});
+
 describe("toSessionClips validation", () => {
   it("throws for a project without a valid track", () => {
     expect(() => toSessionClips([meta("No Track", "2025-01-01")], [])).toThrow(/Unknown track/);
