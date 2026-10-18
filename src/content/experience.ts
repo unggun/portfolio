@@ -102,15 +102,18 @@ export const roles: Role[] = [
     from: "2025-08",
     to: null,
     highlights: [
+      "Moved the team to agent-first development, with unit test coverage going from 0% to 86% as the guardrail.",
       "Built a self-healing pipeline: Claude Code routines triage Sentry issues, write fixes and open pull requests.",
-      "Replaced manual developer-KPI tracking with a real-time pipeline.",
-      "Helped build Pulse, which cut operating costs by about USD 500 a month.",
+      "Led Pulse, an internal product that cut operating costs by about USD 500 a month.",
     ],
     achievements: [
-      "Designed and implemented automated data collection to measure developer KPIs, replacing manual tracking with a reliable, real-time pipeline and giving leadership objective visibility into team performance.",
-      "Contributed to the development of an internal product (Pulse) that reduced company operating costs by approximately USD 500 per month.",
-      "Introduced a deploy-fast, fail-fast development lifecycle for internal product development, increasing developer velocity and shortening time to market.",
+      "Led Pulse, an internal product used by Upscalix's other departments, which reduced company operating costs by about USD 500 a month.",
+      "Moved the Pulse team to agent-first development before coding agents were standard practice at Upscalix, and made unit tests mandatory as the guardrail, taking line coverage from 0% to 86%. Lint and tests now gate every merge in CI.",
+      "Switched to trunk-based development with continuous delivery, taking production deploys from once per sprint to 3 to 8 per sprint.",
+      "Added a review agent to CI, tuned for useful feedback at reasonable cost, so faster code output didn't stall in review.",
+      "Moved CI to self-hosted runners on unused DigitalOcean droplets, keeping CI within the GitHub budget while cutting time to merge.",
       "Built a self-healing pipeline that uses Claude Code routines to automatically triage Sentry production issues, generate fixes, and open pull requests, reducing developer toil and cutting time-to-resolution for previously unseen production incidents.",
+      "Designed and implemented automated data collection to measure developer KPIs, replacing manual tracking with a reliable, real-time pipeline and giving leadership objective visibility into team performance.",
     ],
   },
   {
