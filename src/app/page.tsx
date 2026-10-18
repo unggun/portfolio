@@ -8,7 +8,7 @@ import { buildMetadata, buildSchema, JsonLd } from "@/lib/seo";
 const path = "/";
 
 export function generateMetadata() {
-  return buildMetadata({ title: home.title, description: home.description, path, image: "/images/og/home.jpg" });
+  return buildMetadata({ title: home.title, description: home.description, path, image: "/images/og/home-live.jpg" });
 }
 
 export default function Home() {
