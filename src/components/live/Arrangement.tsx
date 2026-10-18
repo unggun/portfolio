@@ -19,6 +19,7 @@ const LANES: { id: Lane; color: string }[] = [
   { id: "SIRCLO", color: "var(--clip-teal)" },
   { id: "_upsounds", color: "var(--clip-sage)" },
   { id: "Upscalix", color: "var(--clip-lilac)" },
+  { id: "Freelance", color: "var(--clip-rose)" },
 ];
 
 // Keep in sync with the `.arr-wrap` / `.arr-stick` rule in src/app/globals.css.

@@ -1,4 +1,4 @@
-export type Lane = "ICUBE" | "SIRCLO" | "_upsounds" | "Upscalix";
+export type Lane = "ICUBE" | "SIRCLO" | "_upsounds" | "Upscalix" | "Freelance";
 
 export type Role = {
   company: Lane;
@@ -111,6 +111,24 @@ export const roles: Role[] = [
       "Contributed to the development of an internal product (Pulse) that reduced company operating costs by approximately USD 500 per month.",
       "Introduced a deploy-fast, fail-fast development lifecycle for internal product development, increasing developer velocity and shortening time to market.",
       "Built a self-healing pipeline that uses Claude Code routines to automatically triage Sentry production issues, generate fixes, and open pull requests, reducing developer toil and cutting time-to-resolution for previously unseen production incidents.",
+    ],
+  },
+  {
+    company: "Freelance",
+    title: "Full-stack Developer (Freelance)",
+    from: "2025-10",
+    to: null,
+    side: true,
+    highlights: [
+      "Build LLM features for a multi-tenant KPI management SaaS (Go API, Next.js web).",
+      "An LLM converter that turns clients' free-form KPI spreadsheets into an importable format.",
+      "A dashboard assistant that builds KPI dashboards from plain-language requests.",
+    ],
+    achievements: [
+      "Built an LLM-assisted converter that turns clients' free-form Indonesian KPI workbooks into the product's import format. Code does every calculation and the model only classifies, so a wrong target can never come from the model; an admin reviews each row before import.",
+      "Built a dashboard assistant that answers plain-language requests with a widget spec from a fixed catalog. The model never sees tenant data, and invalid widgets are dropped one by one instead of failing the whole turn.",
+      "Added an eval harness for the dashboard assistant and used its failures to harden how the API parses model output.",
+      "Work directly with the product owner, turning evolving requirements into small, reviewable releases.",
     ],
   },
 ];
