@@ -19,13 +19,15 @@ const LANES: { id: Lane; color: string }[] = [
   { id: "SIRCLO", color: "var(--clip-teal)" },
   { id: "_upsounds", color: "var(--clip-sage)" },
   { id: "Upscalix", color: "var(--clip-lilac)" },
+  { id: "Freelance", color: "var(--clip-rose)" },
 ];
 
 // Keep in sync with the `.arr-wrap` / `.arr-stick` rule in src/app/globals.css.
 export const PINNED_QUERY =
-  "(min-width: 761px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)";
+  "(min-width: 761px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)";
 
 const laneTop = (i: number) => 31 + i * 67;
+const LOCATOR_FLIP_PX = 160;
 const NOTES_BG = [
   "repeating-linear-gradient(90deg, var(--on-clip) 0 14px, transparent 14px 22px, var(--on-clip) 22px 30px, transparent 30px 46px)",
   "repeating-linear-gradient(90deg, transparent 0 8px, var(--on-clip) 8px 26px, transparent 26px 40px)",
@@ -166,15 +168,20 @@ export function Arrangement({ roles, locators, span, now }: Props) {
                     {y}
                   </div>
                 ))}
-                {locators.map((l) => (
-                  <div
-                    key={`${l.name}-${l.at}`}
-                    className="absolute bottom-0.5 flex -translate-x-[5px] items-center gap-1 text-[10px] font-bold whitespace-nowrap text-fg [font-variation-settings:'wdth'_80] before:h-0 before:w-0 before:border-x-[5px] before:border-t-[7px] before:border-x-transparent before:border-t-accent before:content-['']"
-                    style={{ left: (l.at - span.start) * mw }}
-                  >
-                    {l.name}
-                  </div>
-                ))}
+                {locators.map((l) => {
+                  const x = (l.at - span.start) * mw;
+                  // Near the end of the track the label would run past the clip edge, so it hangs left of the marker instead.
+                  const flip = trackW - x < LOCATOR_FLIP_PX;
+                  return (
+                    <div
+                      key={`${l.name}-${l.at}`}
+                      className={`absolute bottom-0.5 flex items-center gap-1 text-[10px] font-bold whitespace-nowrap text-fg [font-variation-settings:'wdth'_80] before:h-0 before:w-0 before:border-x-[5px] before:border-t-[7px] before:border-x-transparent before:border-t-accent before:content-[''] ${flip ? "translate-x-[5px] flex-row-reverse" : "-translate-x-[5px]"}`}
+                      style={flip ? { right: trackW - x } : { left: x }}
+                    >
+                      {l.name}
+                    </div>
+                  );
+                })}
               </div>
               {LANES.map((l, i) => (
                 <div
