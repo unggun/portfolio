@@ -10,10 +10,15 @@ export function ArrangementSection() {
   const now = toMonth(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
   const span = timelineSpan(roles, now);
 
-  const locators: Locator[] = getSessionData()
-    .clips.filter((c) => c.kind === "work")
-    .map((c) => ({ name: c.name, at: toMonth(c.publishedAt.slice(0, 7)) }))
-    .filter((l) => l.at >= span.start && l.at < span.end);
+  // Locators sit on month positions, so projects published in the same month share one marker.
+  const byMonth = new Map<number, string[]>();
+  for (const c of getSessionData().clips) {
+    if (c.kind !== "work") continue;
+    const at = toMonth(c.publishedAt.slice(0, 7));
+    if (at < span.start || at >= span.end) continue;
+    byMonth.set(at, [...(byMonth.get(at) ?? []), c.name]);
+  }
+  const locators: Locator[] = [...byMonth].map(([at, names]) => ({ name: names.join(" · "), at }));
 
   return (
     <section id="experience" className="live-wrap py-[72px] max-[920px]:py-12">

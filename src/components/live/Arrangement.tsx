@@ -24,7 +24,7 @@ const LANES: { id: Lane; color: string }[] = [
 
 // Keep in sync with the `.arr-wrap` / `.arr-stick` rule in src/app/globals.css.
 export const PINNED_QUERY =
-  "(min-width: 761px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)";
+  "(min-width: 761px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)";
 
 const laneTop = (i: number) => 31 + i * 67;
 const NOTES_BG = [
