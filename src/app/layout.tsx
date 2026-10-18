@@ -14,7 +14,7 @@ export async function generateMetadata() {
     title: home.title,
     description: home.description,
     path: "/",
-    image: "/images/og/home.jpg",
+    image: "/images/og/home-live.jpg",
   });
 }
 
