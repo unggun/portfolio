@@ -111,7 +111,7 @@ export const roles: Role[] = [
       "Moved the Pulse team to agent-first development before coding agents were standard practice at Upscalix, and made unit tests mandatory as the guardrail, taking line coverage from 0% to 86%. Lint and tests now gate every merge in CI.",
       "Switched to trunk-based development with continuous delivery, taking production deploys from once per sprint to 3 to 8 per sprint.",
       "Added a review agent to CI, tuned for useful feedback at reasonable cost, so faster code output didn't stall in review.",
-      "Moved CI to self-hosted runners on unused DigitalOcean droplets, keeping CI within the GitHub budget while cutting time to merge.",
+      "Moved CI to self-hosted runners, keeping CI within the GitHub budget while cutting time to merge.",
       "Built a self-healing pipeline that uses Claude Code routines to automatically triage Sentry production issues, generate fixes, and open pull requests, reducing developer toil and cutting time-to-resolution for previously unseen production incidents.",
       "Designed and implemented automated data collection to measure developer KPIs, replacing manual tracking with a reliable, real-time pipeline and giving leadership objective visibility into team performance.",
     ],
