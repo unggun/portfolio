@@ -1,4 +1,4 @@
-export const baseURL = "https://andreas-unggun.my.id";
+export const baseURL = "https://unggun.tech";
 
 const firstName = "Andreas Unggun";
 const lastName = "Parananda";
