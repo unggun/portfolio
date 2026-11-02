@@ -1,0 +1,125 @@
+---
+title: "Halving CI Time Without Spending More on CI"
+clipName: "Faster CI"
+publishedAt: "2026-11-02"
+summary: "A full CI run on merge went from 56–79 minutes to 35–39 minutes on the same two self-hosted runners, with the same checks, the same coverage and no new infrastructure spend."
+team:
+  - name: "Andreas Unggun Parananda"
+    role: "Technical Lead"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/andreas-unggun-parananda-60279a13b/"
+track: ai
+---
+
+## Overview
+
+- **Role:** led the investigation and decisions; paired with an AI coding agent for profiling and implementation
+- **Stack:** NestJS + React (Vite) monorepo, npm workspaces, Jest + Vitest, GitHub Actions on self-hosted runners
+- **Result:** a full CI run on merge went from **56–79 min to 35–39 min**, roughly half, with the same checks, the same coverage and no new infrastructure spend
+
+## The problem
+
+Our product is a CRM and workspace platform built as one large monorepo: a NestJS backend with thousands of unit specs, and a React client with around 700 test files. CI runs on two self-hosted VPS runners with 4 cores and 8 GB each.
+
+Every merge to `main` runs the full test suites with coverage, and the staging deploy waits for that run to pass. A full run took 56–79 minutes, so a merge could take over an hour to reach staging. Because there are only two runners, one slow run also held up everyone else's pull requests.
+
+More of our work now comes from developers working alongside AI coding agents. That means more pull requests, opened in parallel, and every one waits on CI before anyone can trust it. A slow pipeline had become the bottleneck for the whole team.
+
+## Constraints
+
+- **Same checks.** Nothing could be skipped or weakened. A faster pipeline had to run exactly what the slow one ran.
+- **Same coverage.** Coverage thresholds stay enforced on `main`.
+- **Same budget.** The runners are fixed. Hosted CI was an option to evaluate, not a given.
+- **Team throughput over single-run speed.** With two runners, a change that makes one run faster by occupying both runners can make the team slower.
+
+## How I measured it
+
+I began by breaking down each job's timing, step by step, for the slowest recent `main` run (79 minutes). It showed that a large share of that time wasn't testing at all:
+
+<div style={{ overflowX: "auto" }}>
+<table>
+  <thead>
+    <tr><th>Step</th><th>Time per job (79-minute run)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Node setup (npm cache restore)</td><td>~1,200 s</td></tr>
+    <tr><td><code>npm install</code></td><td>~200 s</td></tr>
+    <tr><td>Frontend tests</td><td>~3,070 s</td></tr>
+    <tr><td>Backend job, total</td><td>~40 min</td></tr>
+  </tbody>
+</table>
+</div>
+
+I also ran the frontend suite locally to compare. A laptop finished it in about 6 minutes, while the runner took about 47. That gap told me two things:
+
+1. The runners are much slower than a developer machine, so every wasted second costs more there.
+2. Some overhead, such as caching and setup, was fixed per job. Removing it would help more than speeding up any single test.
+
+## What I changed
+
+Each change went in as its own commit and was measured on its own.
+
+**1. Turned off the npm cache on persistent runners.**
+On a self-hosted runner, `node_modules` stays on disk between runs. Saving and restoring a cache over it was pure overhead, about 20 minutes per job. Removing it cut install time from ~200 s to ~35 s.
+
+**2. Moved the change-detection job to a hosted runner.**
+This tiny job decides which areas of the code changed. It was occupying a self-hosted runner just to read a git diff. On a free hosted runner, it leaves both self-hosted machines free for real work.
+
+**3. Stopped wiping the workspace on checkout.**
+Checkout now keeps the workspace and cleans everything except `node_modules`. That keeps the installed dependencies without leaving stale build output behind.
+
+**4. Added job timeouts.**
+A hung job used to hold a runner until GitHub's 6-hour default. Each job now gets a timeout that matches its normal duration.
+
+**5. Made backend type checking cheaper.**
+Migrations get a dedicated type-check step. Everywhere else that only needs to execute TypeScript now transpiles without type checking, so the full type check runs once instead of repeatedly.
+
+**6. Narrowed what forces a full frontend test run.**
+Pull requests run only the tests affected by their changes. But the test runner treated some root-level files as "everything changed" and reran the whole suite. I limited those triggers to the files that really affect the client tests.
+
+**7. Switched the client test DOM from jsdom to happy-dom.**
+This was the biggest test-time win. On files that pass under both, happy-dom ran **2.7× faster** (821 s to 304 s locally), and line coverage barely moved (82.86% to 82.85%). About 35 of the ~700 test files rely on browser behaviour that happy-dom doesn't implement, such as media APIs and some computed styles. Those keep jsdom through a one-line per-file opt-out, and the rule is documented: opt out only after a test fails under happy-dom.
+
+**8. Fixed a security finding the same day.**
+The dependency scanner flagged a high-severity advisory in the happy-dom version I'd picked. I moved to the patched release and pinned it exactly. The first attempt nested the package in the wrong `node_modules` and broke module resolution. The clean fix was to reinstall from scratch rather than hand-edit the lockfile.
+
+## What I tried and dropped
+
+Rejected ideas shaped the result as much as the ones I kept.
+
+- **Turning off test isolation.** In theory it's much faster. In practice the suite depends on isolation: the trial ran for 85 minutes, mostly failing, and I stopped it.
+- **Sharding the frontend suite four ways.** It made one run faster, but it would hold both runners for the duration. On a busy day, a single merge would block every other developer's pull request. The slowest shard also surfaced a timeout flake. I dropped it, because team throughput mattered more than one fast run.
+- **Moving to hosted CI.** I estimated our ~12,900 monthly minutes at roughly $80–110 a month on faster hosted runners. It's a real option, but the free wins came first. Now that the pipeline is lean, it's a much clearer comparison to make.
+
+## Results
+
+<div style={{ overflowX: "auto" }}>
+<table>
+  <thead>
+    <tr><th></th><th>Before</th><th>After</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Full CI run on merge to <code>main</code></td><td><strong>56–79 min</strong></td><td><strong>35–39 min</strong></td></tr>
+    <tr><td>Node setup per job</td><td>~1,200 s</td><td>removed</td></tr>
+    <tr><td><code>npm install</code></td><td>~200 s</td><td>~35 s</td></tr>
+    <tr><td>Backend job</td><td>~40 min</td><td>~21–23 min</td></tr>
+    <tr><td>Coverage</td><td>82.86%</td><td>82.85%</td></tr>
+    <tr><td>Extra infrastructure cost</td><td>—</td><td>$0</td></tr>
+  </tbody>
+</table>
+</div>
+
+Run times are the frontend job, which is the longest job and sets the run's length, taken from comparable full runs on `main`. Re-runs and runs that skipped a job are excluded.
+
+That's **20–40 minutes saved on every merge**, plus faster PR runs, with the same checks and coverage gates in place.
+
+## What I learned
+
+- **Measure before optimising.** The biggest win, the cache, wasn't in the tests at all.
+- **On shared, fixed capacity, optimise for throughput.** Parallelism that holds every runner is a cost, not a speed-up.
+- **Make exceptions explicit.** The jsdom opt-out is visible in each file and documented, so nobody has to guess why a test behaves differently.
+- **CI is now part of the developer experience for AI-assisted work.** When agents open more pull requests, the pipeline's speed and capacity decide how fast the team can trust those changes.
+
+## What's next
+
+The remaining levers are lint, which hasn't been optimised yet, and runner speed itself. Checking the VPSes for CPU steal, or a short trial of a hosted provider, would show whether the hardware is now the limit.
