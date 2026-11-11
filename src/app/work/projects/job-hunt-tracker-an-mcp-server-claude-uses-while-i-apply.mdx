@@ -1,0 +1,91 @@
+---
+title: "Job Hunt Tracker: An MCP Server Claude Uses While I Apply"
+clipName: "Job Tracker"
+publishedAt: "2026-11-11"
+summary: "A personal job application tracker with a remote MCP server and OAuth sign-in, so Claude can check whether I already applied, log each application with the full posting and my form answers, and record status changes and interview rounds as they happen."
+link: "https://github.com/unggun/job-trackr"
+team:
+  - name: "Andreas Unggun Parananda"
+    role: "Product owner and reviewer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/andreas-unggun-parananda-60279a13b/"
+track: ai
+---
+
+## Overview
+
+- **What it is:** a personal tool with one user, me. It tracks the jobs I apply for, and it's also a remote MCP server that Claude connects to.
+- **How it was built:** agent-first. Claude wrote every commit. I set the scope, reviewed each change and merged each pull request.
+- **Stack:** SvelteKit on Cloudflare Workers with a D1 database, Drizzle ORM, Better Auth as the OAuth server, and the MCP TypeScript SDK.
+- **Source:** open source under MIT, so anyone can host their own copy on Cloudflare's free tier.
+
+## The problem
+
+When you apply to a lot of jobs, you lose track. Did I already apply to this posting? What did I say my notice period was? When the interview comes, the posting has often been taken down, so there's nothing left to prepare from.
+
+I already use Claude to help fill in application forms. So the tracker shouldn't be another form to fill in afterwards. Claude should keep it up to date while it helps me apply.
+
+## What Claude does with it
+
+The tracker is a normal web app with list and board views and an interview prep page. It's also an MCP server, which gives Claude eight tools:
+
+<div style={{ overflowX: "auto" }}>
+<table>
+  <thead>
+    <tr><th>Tool</th><th>What Claude uses it for</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>find_applications</code></td><td>"Have I applied here already?", by posting link or company</td></tr>
+    <tr><td><code>log_application</code></td><td>Save an application with the full job posting and every form answer</td></tr>
+    <tr><td><code>save_answers</code></td><td>Add answers from later pages of a multi-step form</td></tr>
+    <tr><td><code>update_status</code></td><td>Record news: a screening call, an interview, an offer or a rejection</td></tr>
+    <tr><td><code>update_application</code></td><td>Fill in details later, like the salary or the posting text</td></tr>
+    <tr><td><code>add_interview_round</code></td><td>Schedule an interview round, or record how one went</td></tr>
+    <tr><td><code>get_application</code></td><td>Read back the posting and my answers to help me prepare</td></tr>
+    <tr><td><code>list_applications</code></td><td>See what's still open</td></tr>
+  </tbody>
+</table>
+</div>
+
+A typical session: I ask Claude to help me apply to a posting. It calls `find_applications` first. After I submit the form, it calls `log_application` with the posting as Markdown and each form question with the exact answer it entered. Later, "I got an interview invite from them for Tuesday" becomes an `update_status` call and an `add_interview_round` call.
+
+There's no delete tool. Claude can add and change records, but it can't remove them.
+
+## How the MCP server works
+
+**Instructions travel with the server.** The server sends Claude short instructions on when to use each tool: check before filling in a form, log right after submitting, and always save the posting because postings disappear. So asking normally works, and I don't need a special prompt.
+
+**Stateless Streamable HTTP.** Each request to `/mcp` builds a fresh server for the signed-in user, handles the call and returns JSON. Nothing is kept between requests, which suits a Worker.
+
+**Every tool is scoped to one user.** The server is built for the user behind the access token, and every query filters by that user. A test connects as a second user and checks that it can't read or change the first user's applications.
+
+**Errors the model can act on.** An unknown id comes back as a tool error that tells Claude to look the application up with `find_applications`. Bad input comes back as a readable validation message instead of a crash. Duplicate postings come back as a warning with links to the earlier applications, and posting URLs are compared without tracking parameters.
+
+## Sign-in with OAuth
+
+Claude connects to a remote MCP server with OAuth, so the tracker is its own OAuth server:
+
+1. A request to `/mcp` without a valid token gets a `401` with a `WWW-Authenticate` header that points to the endpoint's protected resource metadata.
+2. That metadata names the authorization server, and its metadata lists the registration, authorize and token endpoints.
+3. Claude registers itself (dynamic client registration), I sign in with GitHub and approve it once on a consent page, and Claude keeps access with refresh tokens.
+
+The `/mcp` endpoint checks each token through the OAuth provider's own validation, so expiry, revocation and signed-out sessions all apply. It also rejects tokens issued for a different resource, and DPoP-bound tokens sent as plain Bearer tokens. Access tokens are opaque and checked against the database, so there are no signing keys to manage.
+
+## What broke
+
+The connector worked in development and failed in production with `mcp_token_exchange_failed`. SvelteKit rejects form posts whose `Origin` header isn't the app's own, before any app code runs. The OAuth token endpoint is exactly such a form post, sent by Claude from its own servers. The check is off in development, which hid the bug.
+
+The fix turned off SvelteKit's built-in check and moved the same check into a hook that skips only the OAuth endpoints that apps call server to server (token, register, revoke and introspect). Every other form post still has to come from the app itself. Alongside it, the app now logs why an OAuth request is refused, without secrets or tokens, so the next failed connection shows its reason in `wrangler tail`.
+
+Another small one: Claude Code registers a `localhost` callback without saying it's a native app, so the server infers the application type instead of rejecting the registration.
+
+## Testing
+
+The MCP tests connect a real MCP client to the server in memory, the way Claude would, and run it against a local D1 database. They cover the tool list and instructions, logging and recognising the same posting again, answers, status changes and interview rounds, filtering open applications, and isolation between users.
+
+## What I learned
+
+- **Remote MCP is mostly an OAuth project.** The tools took little code. Discovery, client registration, consent, token checks and refresh are where the work and the bugs were.
+- **Write tools for the model, not for a UI.** Descriptions say when to call each tool, errors say what to do next, and duplicate warnings come back as data the model can read.
+- **Test the production path early.** The token exchange bug only existed outside development. Connecting the real client to the deployed app was the test that mattered.
+- **Agent-first still needs an owner.** Claude wrote the code. Deciding the scope, leaving out deletion, and reviewing every pull request stayed with me.
