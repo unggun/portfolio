@@ -1,7 +1,7 @@
 export type Device = { name: string; items: string[]; live?: boolean };
 
 export const devices: Device[] = [
-  { name: "AI Engineering", items: ["Claude Code", "Claude Routines", "Agentic AI", "n8n"] },
+  { name: "AI Engineering", items: ["Claude Code", "Claude Routines", "Agentic AI", "LLM Evals", "MCP", "n8n"] },
   { name: "Backend", items: ["PHP", "Laravel", "Node.js", "Go", "TypeScript"] },
   { name: "Frontend", items: ["Next.js", "Tailwind CSS", "Vue.js"] },
   { name: "Data", items: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "Elasticsearch"] },
