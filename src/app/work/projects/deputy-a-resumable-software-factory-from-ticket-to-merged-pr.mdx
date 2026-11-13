@@ -3,8 +3,10 @@ title: "Deputy: A Resumable Software Factory, from Ticket to Merged PR"
 publishedAt: "2026-10-15"
 summary: "Deputy turns my ClickUp and Jira tickets into reviewed, merged pull requests. It triages, plans, builds, reviews and fixes CI, and it stops for a person wherever judgement matters."
 images:
+  - "/images/projects/deputy/deputy-overview.jpg"
+  - "/images/projects/deputy/deputy-benchmarks.jpg"
   - "/images/projects/deputy/deputy01.jpg"
-  - "/images/projects/deputy/deputy02.jpg"
+  - "/images/projects/deputy/deputy-graph.jpg"
 team:
   - name: "Andreas Unggun Parananda"
     role: "Software Engineer"
@@ -150,6 +152,7 @@ The flow lives in a table in `graph.py`, not in `if` statements spread through t
 - **Many workspaces and repos**: ClickUp and Jira can run side by side, each with its own GitHub account. A Jira ticket that spans a backend and a frontend goes to both repos. It counts as done only when every PR has merged.
 - **Real spending limits**: On a subscription, the dollar cost the CLI reports isn't the real limit. The usage quota is. So Deputy caps daily tokens as well as dollars, and checks both before every agent run.
 - **Read-only dashboard**: A local web page shows what's stuck, what's running, what it cost and what merged. It opens the database read-only, so it can watch the runner but never change anything.
+- **Prompt benchmarks**: Before I change a prompt or model, Deputy replays past calls against each variant and grades them against what actually happened. Each variant gets an accuracy score with a 95% range and an average cost per call, and every disagreement with history is listed. Prompt changes are measured, not guessed.
 
 ## Technologies Used
 
